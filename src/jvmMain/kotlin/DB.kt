@@ -3,13 +3,17 @@ import java.sql.DriverManager
 data class Equipment_types(val id: Int?, val Type: String, val Subtype: String)
 data class Equipment(val id: Int?, val Manufacturer: String, val Stock: Int, val EquipmentTypeId: Int)
 class DB {
+    var user_glob: String = "user";
+    var password_glob: String = "user";
     fun establishPostgreSQLConnection(user: String, pass: String): Connection {
         val jdbcUrl = "jdbc:postgresql://localhost:5432/Concert_hall"
+        user_glob = user
+        password_glob = pass
         return DriverManager.getConnection(jdbcUrl, user, pass)
     }
 
     fun getEquipmentTypes(): MutableList<Equipment_types> {
-        val connection = establishPostgreSQLConnection("postgres", "postgres")
+        val connection = establishPostgreSQLConnection(user_glob, password_glob)
         val query = connection.prepareStatement("Select * from \"Hall\".\"Equipment_types\"")
 
         // the query is executed and results are fetched
@@ -37,7 +41,7 @@ class DB {
         return equipmentTypes
     }
     fun getEquipmentPlain(): MutableList<Equipment> {
-        val connection = establishPostgreSQLConnection("postgres", "postgres")
+        val connection = establishPostgreSQLConnection(user_glob, password_glob)
         val query = connection.prepareStatement("Select * from \"Hall\".\"Equipment\"")
 
         // the query is executed and results are fetched
@@ -66,7 +70,7 @@ class DB {
     }
     fun AddType(Type: Equipment_types)
     {
-        val connection = establishPostgreSQLConnection("postgres", "postgres")
+        val connection = establishPostgreSQLConnection(user_glob, password_glob)
         val query = """
         |INSERT INTO "Hall"."Equipment_types"
         |("Type", "Subtype")
@@ -80,7 +84,7 @@ class DB {
     }
     fun AddEquipment(Type: Equipment)
     {
-        val connection = establishPostgreSQLConnection("postgres", "postgres")
+        val connection = establishPostgreSQLConnection(user_glob, password_glob)
         val query = """
         INSERT INTO "Hall"."Equipment" ("EquipmentId", "Manufacturer", "Stock", "EquipmentTypeId")
         |VALUES (?, ?, ?, ?)

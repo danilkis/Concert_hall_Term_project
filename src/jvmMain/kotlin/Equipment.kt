@@ -119,49 +119,6 @@ fun AddType() {
         }
     }
 @Composable
-fun ChooseType()
-{
-    var expanded by remember { mutableStateOf(false) }
-    val suggestions = listOf("Item1","Item2","Item3")
-    var selectedText by remember { mutableStateOf("") }
-
-    var textfieldSize by remember { mutableStateOf(Size.Zero)}
-
-    val icon = if (expanded)
-        Icons.Filled.ArrowForward //it requires androidx.compose.material:material-icons-extended
-    else
-        Icons.Filled.ArrowDropDown
-    OutlinedTextField(
-        value = selectedText,
-        onValueChange = { selectedText = it },
-        modifier = Modifier
-            .fillMaxWidth()
-            .onGloballyPositioned { coordinates ->
-                //This value is used to assign to the DropDown the same width
-                textfieldSize = coordinates.size.toSize()
-            },
-        label = {Text("Label")},
-        trailingIcon = {
-            Icon(icon,"contentDescription",
-                Modifier.clickable { expanded = !expanded })
-        }
-    )
-    DropdownMenu(
-        expanded = expanded,
-        onDismissRequest = { expanded = false },
-        modifier = Modifier
-            .width(with(LocalDensity.current){textfieldSize.width.toDp()})
-    ) {
-        suggestions.forEach { label ->
-            DropdownMenuItem(onClick = {
-                selectedText = label
-            }) {
-                Text(text = label)
-            }
-        }
-    }
-}
-@Composable
 fun AddEquipment() {
     val Id = remember { mutableStateOf("") }
     val Manufacturer = remember { mutableStateOf("") }
@@ -176,12 +133,37 @@ fun AddEquipment() {
             modifier = Modifier.weight(1f)
         )
         Spacer(modifier = Modifier.padding(8.dp))
+        var expanded1 by remember { mutableStateOf(false) }
+        val suggestions1 = DB().getEquipmentPlain()
+        var selectedText1 by remember { mutableStateOf("") }
+
+        val icon1 = if (expanded1)
+            Icons.Filled.ArrowForward //it requires androidx.compose.material:material-icons-extended
+        else
+            Icons.Filled.ArrowDropDown
         OutlinedTextField(
-            value = Manufacturer.value,
-            onValueChange = { Manufacturer.value = it },
-            label = { Text("Производитель") },
-            modifier = Modifier.weight(1f)
+            value = selectedText1,
+            modifier = Modifier.width(250.dp),
+            onValueChange = { selectedText1 = it },
+            label = {Text("Производитель")},
+            trailingIcon = {
+                Icon(icon1,"contentDescription",
+                    Modifier.clickable { expanded1 = !expanded1 })
+            }
         )
+        DropdownMenu(
+            expanded = expanded1,
+            modifier = Modifier.width(250.dp),
+            onDismissRequest = { expanded1 = false })
+        {
+            suggestions1.forEach { label ->
+                DropdownMenuItem(onClick = {
+                    selectedText1 = label.Manufacturer
+                }) {
+                    Text(text = label.Manufacturer)
+                }
+            }
+        }
         Spacer(modifier = Modifier.padding(8.dp))
         OutlinedTextField(
             value = Stock.value,
@@ -190,10 +172,40 @@ fun AddEquipment() {
             modifier = Modifier.weight(1f)
         )
         Spacer(modifier = Modifier.padding(8.dp))
-        ChooseType()
+        var expanded by remember { mutableStateOf(false) }
+        val suggestions = DB().getEquipmentTypes()
+        var selectedText by remember { mutableStateOf("") }
+
+        val icon = if (expanded)
+            Icons.Filled.ArrowForward //it requires androidx.compose.material:material-icons-extended
+        else
+            Icons.Filled.ArrowDropDown
+        OutlinedTextField(
+            value = selectedText,
+            modifier = Modifier.width(250.dp),
+            onValueChange = { selectedText = it },
+            label = {Text("Тип")},
+            trailingIcon = {
+                Icon(icon,"contentDescription",
+                    Modifier.clickable { expanded = !expanded })
+            }
+        )
+        DropdownMenu(
+            expanded = expanded,
+            modifier = Modifier.width(250.dp),
+            onDismissRequest = { expanded = false })
+        {
+            suggestions.forEach { label ->
+                DropdownMenuItem(onClick = {
+                    selectedText = label.id.toString()
+                }) {
+                    Text(text = label.Type + " " + label.Subtype)
+                }
+            }
+        }
         Spacer(modifier = Modifier.padding(8.dp))
         Button(
-            onClick = {val Database = DB(); Database.AddEquipment(Equipment(Id.value.toInt(), Manufacturer.value, Stock.value.toInt(), EqTypeId.value.toInt())) },
+            onClick = {val Database = DB(); Database.AddEquipment(Equipment(Id.value.toInt(), selectedText1, Stock.value.toInt(),  selectedText.toInt())) },
             modifier = Modifier.padding(top = 8.dp)
         ) {
             Text("Добавить")

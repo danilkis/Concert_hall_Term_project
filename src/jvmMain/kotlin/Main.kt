@@ -24,14 +24,7 @@ import androidx.compose.ui.window.application
 @Preview
 fun App() {
     MaterialTheme {
-        Column{
-                AddType()
-            AddEquipment()
-            Row{
-                EquipmentList()
-                TypesList()
-            }
-        }
+        AuthScreen()
     }
 }
 fun main() = application {
