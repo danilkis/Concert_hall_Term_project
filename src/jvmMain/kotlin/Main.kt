@@ -23,50 +23,17 @@ import androidx.compose.ui.window.application
 @Composable
 @Preview
 fun App() {
-    var text by remember { mutableStateOf("Hello, World!") }
     MaterialTheme {
-        Button(onClick = {
-            text = "Hello, Desktop!"
-        }) {
-            Text(text)
-        }
-        EquipmentTypesList()
-    }
-}
-
-@Composable
-fun EquipmentTypesList() {
-    val equipmentTypes = DB().getEquipmentTypes()
-    LazyColumn {
-        items(equipmentTypes) { equipmentType ->
-            EquipmentTypeCard(equipmentType)
+        Column{
+                AddType()
+            AddEquipment()
+            Row{
+                EquipmentList()
+                TypesList()
+            }
         }
     }
 }
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun EquipmentTypeCard(equipmentType: Equipment_types) {
-    Card(
-        modifier = Modifier
-            .padding(16.dp)
-            .fillMaxWidth()
-    ) {
-        Column(
-            modifier = Modifier.padding(16.dp)
-        ) {
-            Text(
-                text = equipmentType.Type,
-                style = MaterialTheme.typography.h5
-            )
-            Text(
-                text = equipmentType.Subtype,
-                style = MaterialTheme.typography.body1
-            )
-        }
-    }
-}
-
 fun main() = application {
 
     Window(onCloseRequest = ::exitApplication) {
