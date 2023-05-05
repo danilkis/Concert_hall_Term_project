@@ -1,7 +1,11 @@
+package Elements
+
+import Workers.DB
+import Workers.Equipment_data
+import Workers.Equipment_types
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -13,10 +17,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.runtime.*
-import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.unit.toSize
 
 @Composable
     fun TypesList() { //Лист с типами
@@ -90,7 +90,7 @@ fun AddType() {
 
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
-    fun EqupmentCard(equipment: Equipment) {
+    fun EqupmentCard(equipment: Equipment_data) {
         Card(
             modifier = Modifier
                 .padding(8.dp)
@@ -143,7 +143,7 @@ fun AddEquipment() {
             Icons.Filled.ArrowDropDown
         OutlinedTextField(
             value = selectedText1,
-            modifier = Modifier.width(250.dp),
+            modifier = Modifier.weight(1f),
             onValueChange = { selectedText1 = it },
             label = {Text("Производитель")},
             trailingIcon = {
@@ -153,7 +153,7 @@ fun AddEquipment() {
         )
         DropdownMenu(
             expanded = expanded1,
-            modifier = Modifier.width(250.dp),
+            modifier = Modifier.weight(1f),
             onDismissRequest = { expanded1 = false })
         {
             suggestions1.forEach { label ->
@@ -182,7 +182,7 @@ fun AddEquipment() {
             Icons.Filled.ArrowDropDown
         OutlinedTextField(
             value = selectedText,
-            modifier = Modifier.width(250.dp),
+            modifier = Modifier.weight(1f),
             onValueChange = { selectedText = it },
             label = {Text("Тип")},
             trailingIcon = {
@@ -192,7 +192,7 @@ fun AddEquipment() {
         )
         DropdownMenu(
             expanded = expanded,
-            modifier = Modifier.width(250.dp),
+            modifier = Modifier.weight(1f),
             onDismissRequest = { expanded = false })
         {
             suggestions.forEach { label ->
@@ -205,7 +205,14 @@ fun AddEquipment() {
         }
         Spacer(modifier = Modifier.padding(8.dp))
         Button(
-            onClick = {val Database = DB(); Database.AddEquipment(Equipment(Id.value.toInt(), selectedText1, Stock.value.toInt(),  selectedText.toInt())) },
+            onClick = {val Database = DB(); Database.AddEquipment(
+                Equipment_data(
+                    Id.value.toInt(),
+                    selectedText1,
+                    Stock.value.toInt(),
+                    selectedText.toInt()
+                )
+            ) },
             modifier = Modifier.padding(top = 8.dp)
         ) {
             Text("Добавить")

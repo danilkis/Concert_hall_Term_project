@@ -1,5 +1,7 @@
+package Elements
+
+import Workers.DB
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
@@ -10,9 +12,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import java.net.PasswordAuthentication
 
-    @Composable
+@Composable
     fun AuthScreen()
     {
         Column{

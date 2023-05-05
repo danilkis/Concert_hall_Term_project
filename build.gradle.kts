@@ -29,6 +29,9 @@ kotlin {
                 implementation("org.postgresql:postgresql:42.3.1")
                 implementation ("org.jetbrains.compose.material3:material3-desktop:1.2.0")
                 implementation ("androidx.compose.material3:material3-window-size-class:1.0.1")
+                implementation ("androidx.compose.material:material-icons-extended:1.4.3")
+                implementation ("androidx.navigation:navigation-fragment-ktx:2.3.5")
+                implementation ("androidx.navigation:navigation-compose:2.5.3")
                 implementation(compose.desktop.currentOs)
             }
         }
