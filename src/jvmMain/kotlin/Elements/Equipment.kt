@@ -1,11 +1,12 @@
 package Elements
 
 import Workers.DB
+import Workers.Data_types
 import Workers.Equipment_data
-import Workers.Equipment_types
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -13,14 +14,19 @@ import androidx.compose.material3.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.PopupAlertDialogProvider.AlertDialog
+import androidx.compose.material.SnackbarResult
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.ArrowForward
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.*
-
+import androidx.compose.ui.text.style.LineHeightStyle
+import kotlinx.coroutines.launch
+import org.jetbrains.skia.impl.Log
 @Composable
     fun TypesList() { //Лист с типами
-        val equipmentTypes = DB().getEquipmentTypes()
+        val equipmentTypes = Equipment_data().getEquipmentTypes()
         LazyColumn {
             items(equipmentTypes) { equipmentType ->
                 TypeCard(equipmentType)
@@ -30,7 +36,7 @@ import androidx.compose.runtime.*
 
     @OptIn(ExperimentalMaterial3Api::class) //Карточки с типами
     @Composable
-    fun TypeCard(equipmentType: Equipment_types) {
+    fun TypeCard(equipmentType: Data_types.Companion.Equipment_types) {
         Card(
             modifier = Modifier
                 .padding(8.dp)
@@ -71,7 +77,13 @@ fun AddType() {
         )
         Spacer(modifier = Modifier.padding(8.dp))
         Button(
-            onClick = {val Database = DB(); Database.AddType(Equipment_types(null, text1.value, text2.value)) },
+            onClick = {val Equipment = Equipment_data(); Equipment.AddType(
+                Data_types.Companion.Equipment_types(
+                    null,
+                    text1.value,
+                    text2.value
+                )
+            ) },
             modifier = Modifier.padding(top = 8.dp)
         ) {
             Text("Добавить")
@@ -80,7 +92,7 @@ fun AddType() {
 }
     @Composable
     fun EquipmentList() {
-        val equipment = DB().getEquipmentPlain()
+        val equipment = Equipment_data().getEquipmentPlain()
         LazyColumn {
             items(equipment) { equipment ->
                 EqupmentCard(equipment)
@@ -90,7 +102,7 @@ fun AddType() {
 
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
-    fun EqupmentCard(equipment: Equipment_data) {
+    fun EqupmentCard(equipment: Data_types.Companion.Equipment) {
         Card(
             modifier = Modifier
                 .padding(8.dp)
@@ -134,7 +146,7 @@ fun AddEquipment() {
         )
         Spacer(modifier = Modifier.padding(8.dp))
         var expanded1 by remember { mutableStateOf(false) }
-        val suggestions1 = DB().getEquipmentPlain()
+        val suggestions1 = Equipment_data().getEquipmentPlain()
         var selectedText1 by remember { mutableStateOf("") }
 
         val icon1 = if (expanded1)
@@ -145,7 +157,7 @@ fun AddEquipment() {
             value = selectedText1,
             modifier = Modifier.weight(1f),
             onValueChange = { selectedText1 = it },
-            label = {Text("Производитель")},
+            label = {Text("Марка")},
             trailingIcon = {
                 Icon(icon1,"contentDescription",
                     Modifier.clickable { expanded1 = !expanded1 })
@@ -168,12 +180,12 @@ fun AddEquipment() {
         OutlinedTextField(
             value = Stock.value,
             onValueChange = { Stock.value = it },
-            label = { Text("Наличие (Штук)") },
+            label = { Text("Наличие") },
             modifier = Modifier.weight(1f)
         )
         Spacer(modifier = Modifier.padding(8.dp))
         var expanded by remember { mutableStateOf(false) }
-        val suggestions = DB().getEquipmentTypes()
+        val suggestions = Equipment_data().getEquipmentTypes()
         var selectedText by remember { mutableStateOf("") }
 
         val icon = if (expanded)
@@ -205,8 +217,8 @@ fun AddEquipment() {
         }
         Spacer(modifier = Modifier.padding(8.dp))
         Button(
-            onClick = {val Database = DB(); Database.AddEquipment(
-                Equipment_data(
+            onClick = {Equipment_data().AddEquipment(
+                Data_types.Companion.Equipment(
                     Id.value.toInt(),
                     selectedText1,
                     Stock.value.toInt(),

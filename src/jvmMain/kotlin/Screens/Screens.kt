@@ -1,9 +1,6 @@
 package Screens
 
-import Elements.AddEquipment
-import Elements.AddType
-import Elements.EquipmentList
-import Elements.TypesList
+import Elements.*
 import Navigation.NavController
 import androidx.compose.ui.Modifier
 import androidx.compose.foundation.layout.Column
@@ -30,23 +27,17 @@ fun SectorsScreen(navController: NavController)
 {
     Row(modifier = Modifier.fillMaxWidth()) {
         Column(Modifier.weight(1f)) {
-            AddType()
-            TypesList()
+            AddSector()
+            SectorList()
         }
     }
 }
 @Composable
 fun StagesScreen(navController: NavController)
 {
-    Row(modifier = Modifier.fillMaxWidth()) {
-        Column(Modifier.weight(1f)) {
-            AddType()
-            TypesList()
-        }
-        Column(Modifier.weight(1f)) {
-            AddEquipment()
-            EquipmentList()
-        }
+    Row(modifier = Modifier.fillMaxWidth())
+    {
+        EquipmentList()
     }
 }
 @Composable

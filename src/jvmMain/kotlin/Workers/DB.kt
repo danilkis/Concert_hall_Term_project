@@ -2,8 +2,6 @@ package Workers
 
 import java.sql.Connection
 import java.sql.DriverManager
-data class Equipment_types(val id: Int?, val Type: String, val Subtype: String)
-data class Equipment(val id: Int?, val Manufacturer: String, val Stock: Int, val EquipmentTypeId: Int)
 class DB {
     var user_glob: String = "postgres";
     var password_glob: String = "postgres";
