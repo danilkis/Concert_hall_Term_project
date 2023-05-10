@@ -41,7 +41,6 @@ fun App() {
     val currentScreen by remember {
         navController.currentScreen
     }
-
     MaterialTheme {
         Scaffold(
                 modifier = Modifier.fillMaxSize()

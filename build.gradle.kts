@@ -27,6 +27,7 @@ kotlin {
         val jvmMain by getting {
             dependencies {
                 implementation("org.postgresql:postgresql:42.3.1")
+                implementation ("androidx.compose.runtime:runtime-livedata:1.0.0-beta01")
                 implementation ("org.jetbrains.compose.material3:material3-desktop:1.2.0")
                 implementation ("androidx.compose.material3:material3-window-size-class:1.0.1")
                 implementation ("androidx.compose.material:material-icons-extended:1.4.3")

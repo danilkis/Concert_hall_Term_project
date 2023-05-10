@@ -1,18 +1,30 @@
 package Workers
 
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.snapshots.SnapshotStateList
+import androidx.compose.runtime.toMutableStateList
+
 class Equipment_data {
     var database = DB()
     var pass = DB().password_glob
     var login = DB().user_glob
-    fun getEquipmentTypes(): MutableList<Data_types.Companion.Equipment_types> {
+
+    companion object{
+        var Eq_types = mutableStateListOf<Data_types.Companion.Equipment_types>()
+        var equipment = mutableStateListOf<Data_types.Companion.Equipment>()
+    }
+
+
+    fun getEquipmentTypes() {
+        Eq_types.clear()
         val connection = database.establishPostgreSQLConnection(login, pass)
         val query = connection.prepareStatement("Select * from \"Hall\".\"Equipment_types\"")
 
         // the query is executed and results are fetched
         val result = query.executeQuery()
-
+        val equipmentTypes = mutableStateListOf<Data_types.Companion.Equipment_types>()
         // an empty list for holding the results
-        val equipmentTypes = mutableListOf<Data_types.Companion.Equipment_types>()
 
         while(result.next()){
 
@@ -30,9 +42,10 @@ class Equipment_data {
              */
             equipmentTypes.add(Data_types.Companion.Equipment_types(id, type, subtype))
         }
-        return equipmentTypes
+        Equipment_data.Eq_types.addAll(equipmentTypes.toMutableStateList())
     }
-    fun getEquipmentPlain(): MutableList<Data_types.Companion.Equipment> {
+    fun getEquipmentPlain(){
+        equipment.clear()
         val connection = database.establishPostgreSQLConnection(pass, login)
         val query = connection.prepareStatement("Select * from \"Hall\".\"Equipment\"")
 
@@ -40,7 +53,7 @@ class Equipment_data {
         val result = query.executeQuery()
 
         // an empty list for holding the results
-        val equipment = mutableListOf<Data_types.Companion.Equipment>()
+        val equipment = mutableStateListOf<Data_types.Companion.Equipment>()
 
         while(result.next()){
 
@@ -58,7 +71,7 @@ class Equipment_data {
              */
             equipment.add(Data_types.Companion.Equipment(id, Manufacturer, Stock.toInt(), EquipmentTypeId))
         }
-        return equipment
+        Equipment_data.equipment.addAll(equipment.toMutableStateList())
     }
     fun AddType(Type: Data_types.Companion.Equipment_types)
     {
@@ -68,14 +81,40 @@ class Equipment_data {
         |("Type", "Subtype")
         |VALUES (?, ?)
         |""".trimMargin()
-        return connection.prepareStatement(query).use {
-            it.setObject(1, Type.Type)
-            it.setObject(2, Type.Subtype)
-            it.executeUpdate()
+        try {
+            if (Type.Type.isBlank() || Type.Subtype.isBlank()) {throw IllegalStateException("Пустые поля!")}
+            return connection.prepareStatement(query).use {
+                it.setObject(1, Type.Type)
+                it.setObject(2, Type.Subtype)
+                it.executeUpdate()
+            }
+            this.getEquipmentTypes()
+        }
+        catch (ex: Exception)
+        {
         }
     }
-    fun AddEquipment(Type: Data_types.Companion.Equipment)
+    fun RemoveType(Type: Data_types.Companion.Equipment_types)
     {
+        val connection = database.establishPostgreSQLConnection(login, pass)
+        val query = """
+        |DELETE FROM "Hall"."Equipment_types"
+        |WHERE "Type" = ? AND "Subtype" = ?
+        |""".trimMargin()
+        try {
+            if (Type.Type.isBlank() || Type.Subtype.isBlank()) {throw IllegalStateException("Пустые поля!")}
+            return connection.prepareStatement(query).use {
+                it.setObject(1, Type.Type)
+                it.setObject(2, Type.Subtype)
+                it.executeUpdate()
+            }
+            this.getEquipmentTypes()
+        }
+        catch (ex: Exception)
+        {
+        }
+    }
+    fun AddEquipment(Type: Data_types.Companion.Equipment) {
         val connection = database.establishPostgreSQLConnection(login, pass)
         val query = """
         INSERT INTO "Hall"."Equipment" ("EquipmentId", "Manufacturer", "Stock", "EquipmentTypeId")
@@ -85,12 +124,32 @@ class Equipment_data {
         |    "Stock" = excluded."Stock",
         |    "EquipmentTypeId" = excluded."EquipmentTypeId"
         |""".trimMargin()
-        return connection.prepareStatement(query).use {
-            it.setObject(1, Type.id)
-            it.setObject(2, Type.Manufacturer)
-            it.setObject(3, Type.Stock)
-            it.setObject(4, Type.EquipmentTypeId)
-            it.executeUpdate()
-        }
+            if (Type.Manufacturer.isBlank()) {
+                throw IllegalStateException("Пустые поля!")
+            }
+            return connection.prepareStatement(query).use {
+                it.setObject(1, Type.id)
+                it.setObject(2, Type.Manufacturer)
+                it.setObject(3, Type.Stock)
+                it.setObject(4, Type.EquipmentTypeId)
+                it.executeUpdate()
+            }
+    }
+    fun RemoveEquipment(Type: Data_types.Companion.Equipment) {
+        val connection = database.establishPostgreSQLConnection(login, pass)
+        val query = """
+        |DELETE FROM "Hall"."Equipment"
+        |WHERE "EquipmentId" = ? AND "Manufacturer" = ? AND "Stock" = ? AND "EquipmentTypeId" = ?
+        |""".trimMargin()
+            if (Type.Manufacturer.isBlank()) {
+                throw IllegalStateException("Пустые поля!")
+            }
+            return connection.prepareStatement(query).use {
+                it.setObject(1, Type.id)
+                it.setObject(2, Type.Manufacturer)
+                it.setObject(3, Type.Stock)
+                it.setObject(4, Type.EquipmentTypeId)
+                it.executeUpdate()
+            }
     }
 }

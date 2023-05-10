@@ -106,3 +106,8 @@ fun AddSector() {
         }
     }
 }
+@Composable
+fun SnackbarTest()
+{
+
+}
