@@ -13,6 +13,7 @@ class Equipment_data {
     companion object{
         var Eq_types = mutableStateListOf<Data_types.Companion.Equipment_types>()
         var equipment = mutableStateListOf<Data_types.Companion.Equipment>()
+        var State = false
     }
 
 
@@ -88,10 +89,12 @@ class Equipment_data {
                 it.setObject(2, Type.Subtype)
                 it.executeUpdate()
             }
+            State = false
             this.getEquipmentTypes()
         }
         catch (ex: Exception)
         {
+            State = false
         }
     }
     fun RemoveType(Type: Data_types.Companion.Equipment_types)
@@ -109,9 +112,11 @@ class Equipment_data {
                 it.executeUpdate()
             }
             this.getEquipmentTypes()
+            State = false
         }
         catch (ex: Exception)
         {
+            State = true
         }
     }
     fun AddEquipment(Type: Data_types.Companion.Equipment) {
@@ -124,6 +129,8 @@ class Equipment_data {
         |    "Stock" = excluded."Stock",
         |    "EquipmentTypeId" = excluded."EquipmentTypeId"
         |""".trimMargin()
+        try
+        {
             if (Type.Manufacturer.isBlank()) {
                 throw IllegalStateException("Пустые поля!")
             }
@@ -134,6 +141,12 @@ class Equipment_data {
                 it.setObject(4, Type.EquipmentTypeId)
                 it.executeUpdate()
             }
+            State = false
+        }
+        catch (ex: Exception)
+        {
+            State = true
+        }
     }
     fun RemoveEquipment(Type: Data_types.Companion.Equipment) {
         val connection = database.establishPostgreSQLConnection(login, pass)
@@ -141,6 +154,7 @@ class Equipment_data {
         |DELETE FROM "Hall"."Equipment"
         |WHERE "EquipmentId" = ? AND "Manufacturer" = ? AND "Stock" = ? AND "EquipmentTypeId" = ?
         |""".trimMargin()
+        try {
             if (Type.Manufacturer.isBlank()) {
                 throw IllegalStateException("Пустые поля!")
             }
@@ -150,6 +164,12 @@ class Equipment_data {
                 it.setObject(3, Type.Stock)
                 it.setObject(4, Type.EquipmentTypeId)
                 it.executeUpdate()
+            }
+            State = false
+        }
+            catch (ex: Exception)
+            {
+                State = true
             }
     }
 }

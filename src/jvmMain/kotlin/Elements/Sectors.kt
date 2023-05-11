@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -16,9 +17,13 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun SectorList() { //Лист с типами
-    val Sectors = Sector_data().getSectors()
+    var Data = Sector_data()
+    LaunchedEffect(null) {
+        Data.getSectors()
+    }
+    var sectors = Sector_data.Sector
     LazyColumn {
-        items(Sectors) { Sector ->
+        items(sectors) { Sector ->
             SectorCard(Sector)
         }
     }
@@ -60,8 +65,15 @@ fun AddSector() {
     val SeatsTotal = remember { mutableStateOf("") }
     val SeatsStart = remember { mutableStateOf("") }
     val SeatsEnd = remember { mutableStateOf("") }
-
+    val ID = remember { mutableStateOf("") }
     Row(modifier = Modifier.padding(16.dp)) {
+        OutlinedTextField(
+            value = ID.value,
+            onValueChange = { ID.value = it },
+            label = { Text("ID") },
+            modifier = Modifier.weight(1f)
+        )
+        Spacer(modifier = Modifier.padding(8.dp))
         OutlinedTextField(
             value = Name.value,
             onValueChange = { Name.value = it },
@@ -78,36 +90,48 @@ fun AddSector() {
         Spacer(modifier = Modifier.padding(8.dp))
         OutlinedTextField(
             value = SeatsStart.value,
-            onValueChange = { SeatsTotal.value = it },
+            onValueChange = { SeatsStart.value = it },
             label = { Text("Начало сектора") },
             modifier = Modifier.weight(1f)
         )
         Spacer(modifier = Modifier.padding(8.dp))
         OutlinedTextField(
             value = SeatsEnd.value,
-            onValueChange = { SeatsTotal.value = it },
+            onValueChange = { SeatsEnd.value = it },
             label = { Text("Конец сектора") },
             modifier = Modifier.weight(1f)
         )
         Spacer(modifier = Modifier.padding(8.dp))
         Button(
-            onClick = {val Sector = Sector_data(); Sector.AddType(
+            onClick = {val Sector = Sector_data(); Sector.AddSector(
                 Data_types.Companion.Sector(
-                    null,
+                    ID.value.toInt(),
                     SeatsTotal.value.toInt(),
                     SeatsStart.value.toInt(),
                     SeatsEnd.value.toInt(),
                     Name.value
                 )
-            ) },
+            ); Sector_data().getSectors() },
             modifier = Modifier.padding(top = 8.dp)
         ) {
             Text("Добавить")
         }
+        Spacer(modifier = Modifier.padding(8.dp))
+        Button(
+            onClick = {
+                val Sector = Sector_data(); Sector.RemoveSectors(
+                Data_types.Companion.Sector(
+                    ID.value.toInt(),
+                    SeatsTotal.value.toInt(),
+                    SeatsStart.value.toInt(),
+                    SeatsEnd.value.toInt(),
+                    Name.value
+                )
+            ); Sector_data().getSectors()
+            },
+            modifier = Modifier.padding(top = 8.dp)
+        ) {
+            Text("Удалить")
+        }
     }
-}
-@Composable
-fun SnackbarTest()
-{
-
 }

@@ -71,7 +71,9 @@ fun TypeCard(equipmentType: Data_types.Companion.Equipment_types) {
 fun AddType() {
     val text1 = remember { mutableStateOf("") }
     val text2 = remember { mutableStateOf("") }
-
+    val scope = rememberCoroutineScope()
+    val snackbarHostState = remember { mutableStateOf(SnackbarHostState()) }
+    SnackbarHost(snackbarHostState.value)
     Row(modifier = Modifier.padding(16.dp)) {
         OutlinedTextField(
             value = text1.value,
@@ -95,7 +97,9 @@ fun AddType() {
                     text1.value,
                     text2.value
                 )
-            );Equipment_data().getEquipmentTypes()
+            );Equipment_data().getEquipmentTypes(); scope.launch {
+                snackbarHostState.value.showSnackbar("Добавленно")
+            }
             },
             modifier = Modifier.padding(top = 8.dp)
         ) {
@@ -110,7 +114,9 @@ fun AddType() {
                     text1.value,
                     text2.value
                 )
-            );Equipment_data().getEquipmentTypes()
+            );Equipment_data().getEquipmentTypes();  scope.launch {
+                snackbarHostState.value.showSnackbar("Удаленно")
+            }
             },
             modifier = Modifier.padding(top = 8.dp)
         ) {
