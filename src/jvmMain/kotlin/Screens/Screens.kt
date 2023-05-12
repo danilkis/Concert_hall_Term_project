@@ -47,13 +47,30 @@ fun SectorsScreen(navController: NavController)
 @Composable
 fun StagesScreen(navController: NavController)
 {
-    TestDialog()
+    Row(modifier = Modifier.fillMaxWidth()) {
+        Column(Modifier.weight(1f)) {
+            Column{
+                AddStage()
+                StagesList()
+            }
+        }
+    }
 }
 @Composable
 fun EventEquipmentScreen(navController: NavController)
 {
-    Column(Modifier.fillMaxSize()) {
-        AddStage()
-        StagesList()
+    Row(modifier = Modifier.fillMaxWidth()) {
+        Column(Modifier.weight(1f)) {
+            Column{
+                AddStage()
+                StagesList()
+            }
+        }
+        Column(Modifier.weight(1f)) {
+            Column{
+                AddSectorStages()
+                SectorStagesList()
+            }
+        }
     }
 }

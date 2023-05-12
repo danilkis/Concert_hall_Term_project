@@ -1,6 +1,4 @@
 package Elements
-package Elements
-
 import Workers.Data_types
 import Workers.Equipment_data
 import androidx.compose.foundation.layout.*

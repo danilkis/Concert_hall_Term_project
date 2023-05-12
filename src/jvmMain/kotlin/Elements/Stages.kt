@@ -1,9 +1,6 @@
 package Elements
 
-import Workers.DB
-import Workers.Data_types
-import Workers.Equipment_data
-import Workers.Stage_data
+import Workers.*
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -68,6 +65,9 @@ fun StageCard(Stage: Data_types.Companion.Stage) {
         }
     }
 }
+
+
+
 @Composable
 fun AddStage() {
     val ID = remember { mutableStateOf("") }
@@ -133,3 +133,4 @@ fun AddStage() {
         }
     }
 }
+

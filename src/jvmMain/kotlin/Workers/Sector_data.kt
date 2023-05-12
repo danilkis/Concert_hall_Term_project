@@ -52,7 +52,7 @@ class Sector_data {
         |ON CONFLICT ("SectorId") DO UPDATE
         |SET "SeatsTotal" = excluded."SeatsTotal",
         |    "Seats_start" = excluded."Seats_start",
-        |    "Seats_end" = excluded."Seats_end"
+        |    "Seats_end" = excluded."Seats_end",
         |    "Name" = excluded."Name"
         |""".trimMargin()
             return connection.prepareStatement(query).use {

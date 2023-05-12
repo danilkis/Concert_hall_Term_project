@@ -185,7 +185,7 @@ fun AddEquipment() {
         )
         Spacer(modifier = Modifier.padding(8.dp))
         var expanded1 by remember { mutableStateOf(false) }
-        val suggestions1 = Equipment_data.equipment
+        val suggestions1 = Equipment_data.equipment.distinctBy { it.Manufacturer }
         var selectedText1 by remember { mutableStateOf("") }
 
         val icon1 = if (expanded1)
@@ -288,21 +288,4 @@ fun AddEquipment() {
             Text("Удалить")
         }
     }
-}
-
-@OptIn(ExperimentalMaterialApi::class)
-@Composable
-fun TestDialog() {
-    val scope = rememberCoroutineScope()
-    val snackbarHostState = remember { mutableStateOf(SnackbarHostState()) }
-    Button(
-        onClick = {
-            scope.launch {
-                snackbarHostState.value.showSnackbar("Hello")
-            }
-        }
-    ) {
-        Text("Click", fontSize = 28.sp)
-    }
-    SnackbarHost(snackbarHostState.value)
 }
