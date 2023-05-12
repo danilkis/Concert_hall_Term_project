@@ -50,8 +50,8 @@ fun StagesScreen(navController: NavController)
     Row(modifier = Modifier.fillMaxWidth()) {
         Column(Modifier.weight(1f)) {
             Column{
-                AddStage()
-                StagesList()
+                AddEventEquipment()
+               EventEquipmentList()
             }
         }
     }

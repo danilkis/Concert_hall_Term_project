@@ -6,9 +6,7 @@ class Data_types {
         data class Equipment(val id: Int?, val Manufacturer: String, val Stock: Int, val EquipmentTypeId: Int)
         data class Sector(val id: Int?, val SeatsTotal: Int, val SeatsStart: Int?, val SeatsEnd: Int, val Name: String)
         data class Stage(val id: Int?, val StageCapacity: Int, val Name: String)
-        data class EventEquipmentLists(val EventName: String, val StageName: String, val Type: String, val Subtype: String, val Manufacturer: String, val Stock: Int)
-
-        data class EventEquipmentEdit(val idEvent: Int, val idEquipment: Int)
+        data class EventEquipment(val EventName: String, val StageName: String, val EventId: Int, val Type: String, val Subtype: String, val Manufacturer: String, val Stock: Int, val EquipmentId: Int)
 
         data class SectorStages(val StageId: Int, val StageName: String, val SectorId: Int, val SectorName: String)
     }

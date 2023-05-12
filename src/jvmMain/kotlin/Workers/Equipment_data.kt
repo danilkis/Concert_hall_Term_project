@@ -7,8 +7,8 @@ import androidx.compose.runtime.toMutableStateList
 
 class Equipment_data {
     var database = DB()
-    var pass = DB().password_glob
-    var login = DB().user_glob
+    var pass = database.password_glob
+    var login = database.user_glob
 
     companion object{
         var Eq_types = mutableStateListOf<Data_types.Companion.Equipment_types>()
@@ -47,7 +47,7 @@ class Equipment_data {
     }
     fun getEquipmentPlain(){
         equipment.clear()
-        val connection = database.establishPostgreSQLConnection(pass, login)
+        val connection = database.establishPostgreSQLConnection(login, pass)
         val query = connection.prepareStatement("Select * from \"Hall\".\"Equipment\"")
 
         // the query is executed and results are fetched
