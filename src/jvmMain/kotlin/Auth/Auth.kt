@@ -25,16 +25,15 @@ fun AuthScreen()
     val currentScreen by remember {
         navController.currentScreen
     }
-    Scaffold{
-        Column( modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center){
+        Column( modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center){
         val Login = remember { mutableStateOf("") }
         val Password = remember { mutableStateOf("") }
-        OutlinedTextField(
-            value = Login.value,
-            onValueChange = { Login.value = it },
-            label = { Text("Логин") }
-        )
         CustomNavigationHostGlobal(navController = navController)
+            OutlinedTextField(
+                value = Login.value,
+                onValueChange = { Login.value = it },
+                label = { Text("Логин") }
+            )
         Spacer(modifier = Modifier.padding(8.dp))
         OutlinedTextField(
             value = Password.value,
@@ -42,10 +41,10 @@ fun AuthScreen()
             label = { Text("Пароль") }
         )
         Spacer(modifier = Modifier.padding(8.dp))
-        Button(onClick = {val Database = DB(); Database.password_glob = Password.value; Database.user_glob = Login.value; Database.establishPostgreSQLConnection(Database.user_glob,Database.password_glob);navController.navigate(Navigation.Screen.CrewScreen.name) },
+        Button(onClick = {val Database = DB(); Database.user_glob = Login.value; Database.password_glob = Password.value; Database.establishPostgreSQLConnection(Database.user_glob,Database.password_glob);navController.navigate(Navigation.Screen.CrewScreen.name) },
             modifier = Modifier.padding(top = 8.dp)
         ) {
             Text("Войти")
         }
-    }}
+    }
 }
