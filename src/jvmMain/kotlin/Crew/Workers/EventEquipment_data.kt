@@ -1,5 +1,6 @@
-package Workers
+package Crew.Workers
 
+import Workers.DB
 import androidx.compose.runtime.mutableStateListOf
 
 class EventEquipment_data {
@@ -47,7 +48,18 @@ class EventEquipment_data {
             constructing an Equipment_types object and
             putting data into the list
              */
-            eveq.add(Data_types.Companion.EventEquipment(EventName, StageName,EventId, Type, Subtype, Manufacturer ,Stock, EquipmentId))
+            eveq.add(
+                Data_types.Companion.EventEquipment(
+                    EventName,
+                    StageName,
+                    EventId,
+                    Type,
+                    Subtype,
+                    Manufacturer,
+                    Stock,
+                    EquipmentId
+                )
+            )
         }
         EventEquipment.addAll(eveq)
     }

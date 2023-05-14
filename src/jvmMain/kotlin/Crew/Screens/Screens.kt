@@ -1,28 +1,14 @@
-package Screens
+package Crew.Screens
 
-import Elements.*
+import Crew.Elements.*
 import Navigation.NavController
-import Workers.Equipment_data
 import androidx.compose.foundation.layout.*
 import androidx.compose.ui.Modifier
-import androidx.compose.material.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import kotlinx.coroutines.launch
 
 @Composable
-fun EquipmentScreen(navController: NavController)
+fun EquipmentScreen(navController: NavController) //Экран с оборудованием
 {
-    /*
-    val scope = rememberCoroutineScope()
-    val snackbarHostState = remember { mutableStateOf(SnackbarHostState()) }
-    SnackbarHost(snackbarHostState.value)
-    */
     Row(modifier = Modifier.fillMaxWidth()) {
         Column(Modifier.weight(1f)) {
             AddType()
@@ -35,7 +21,7 @@ fun EquipmentScreen(navController: NavController)
     }
 }
 @Composable
-fun SectorsScreen(navController: NavController)
+fun SectorsScreen(navController: NavController) //Экран с секторами
 {
     Row(modifier = Modifier.fillMaxWidth()) {
         Column(Modifier.weight(1f)) {
@@ -45,7 +31,7 @@ fun SectorsScreen(navController: NavController)
     }
 }
 @Composable
-fun StagesScreen(navController: NavController)
+fun EventEquipmentScreen(navController: NavController) //Экран с оборудованием на событиях
 {
     Row(modifier = Modifier.fillMaxWidth()) {
         Column(Modifier.weight(1f)) {
@@ -57,7 +43,7 @@ fun StagesScreen(navController: NavController)
     }
 }
 @Composable
-fun EventEquipmentScreen(navController: NavController)
+fun StageInfoScreen(navController: NavController) //Экран с сценами
 {
     Row(modifier = Modifier.fillMaxWidth()) {
         Column(Modifier.weight(1f)) {

@@ -1,8 +1,7 @@
-package Workers
+package Crew.Workers
 
-import androidx.compose.runtime.MutableState
+import Workers.DB
 import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.runtime.toMutableStateList
 
 class Equipment_data {
@@ -43,7 +42,7 @@ class Equipment_data {
              */
             equipmentTypes.add(Data_types.Companion.Equipment_types(id, type, subtype))
         }
-        Equipment_data.Eq_types.addAll(equipmentTypes.toMutableStateList())
+        Eq_types.addAll(equipmentTypes.toMutableStateList())
     }
     fun getEquipmentPlain(){
         equipment.clear()
@@ -72,7 +71,7 @@ class Equipment_data {
              */
             equipment.add(Data_types.Companion.Equipment(id, Manufacturer, Stock.toInt(), EquipmentTypeId))
         }
-        Equipment_data.equipment.addAll(equipment.toMutableStateList())
+        Companion.equipment.addAll(equipment.toMutableStateList())
     }
     fun AddType(Type: Data_types.Companion.Equipment_types)
     {

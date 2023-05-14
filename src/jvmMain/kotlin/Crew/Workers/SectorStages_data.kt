@@ -1,5 +1,6 @@
-package Workers
+package Crew.Workers
 
+import Workers.DB
 import androidx.compose.runtime.mutableStateListOf
 
 class SectorStages_data {
@@ -44,7 +45,7 @@ class SectorStages_data {
             constructing an Equipment_types object and
             putting data into the list
              */
-            stg.add(Data_types.Companion.SectorStages(StageId,StageName, SectorId, SectorName))
+            stg.add(Data_types.Companion.SectorStages(StageId, StageName, SectorId, SectorName))
         }
         StagesSectors.addAll(stg)
     }

@@ -1,9 +1,9 @@
-package Elements
+package Crew.Elements
 
-import Workers.Data_types
-import Workers.SectorStages_data
-import Workers.Sector_data
-import Workers.Stage_data
+import Crew.Workers.Data_types
+import Crew.Workers.SectorStages_data
+import Crew.Workers.Sector_data
+import Crew.Workers.Stage_data
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn

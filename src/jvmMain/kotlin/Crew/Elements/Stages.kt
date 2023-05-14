@@ -1,7 +1,7 @@
-package Elements
+package Crew.Elements
 
-import Workers.*
-import androidx.compose.foundation.clickable
+import Crew.Workers.Data_types
+import Crew.Workers.Stage_data
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -10,24 +10,12 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.compose.material.PopupAlertDialogProvider.AlertDialog
-import androidx.compose.material.SnackbarResult
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowDropDown
-import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
-import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.*
-import androidx.compose.runtime.snapshots.SnapshotStateList
-import androidx.compose.ui.text.style.LineHeightStyle
-import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.launch
-import org.jetbrains.skia.impl.Log
-import java.awt.Color
 
 @Composable
 fun StagesList() { //Лист с типами

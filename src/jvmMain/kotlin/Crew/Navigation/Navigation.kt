@@ -1,8 +1,12 @@
-package Screens
+package Crew.Navigation
 
+import Crew.Screens.EquipmentScreen
+import Crew.Screens.EventEquipmentScreen
+import Crew.Screens.SectorsScreen
+import Crew.Screens.StageInfoScreen
 import Navigation.NavController
 import Navigation.NavigationHost
-import Navigation.Screen
+import Crew.Navigation.Screen
 import Navigation.composable
 import androidx.compose.runtime.Composable
 
@@ -20,11 +24,11 @@ fun CustomNavigationHost(
         }
 
         composable(Screen.SettingsScreen.name) {
-            EventEquipmentScreen(navController)
+            StageInfoScreen(navController)
         }
 
         composable(Screen.ProfileScreens.name) {
-            StagesScreen(navController)
+            EventEquipmentScreen(navController)
         }
 
     }.build()

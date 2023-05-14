@@ -1,5 +1,6 @@
-package Workers
+package Crew.Workers
 
+import Workers.DB
 import androidx.compose.runtime.mutableStateListOf
 
 class Sector_data {

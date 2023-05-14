@@ -1,8 +1,7 @@
-package Elements
+package Crew.Elements
 
-import Workers.Data_types
-import Workers.Equipment_data
-import Workers.Sector_data
+import Crew.Workers.Data_types
+import Crew.Workers.Sector_data
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items

@@ -1,21 +1,7 @@
-package Workers
+package Crew.Workers
 
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.DropdownMenu
-import androidx.compose.material.DropdownMenuItem
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowDropDown
-import androidx.compose.material.icons.filled.ArrowForward
-import androidx.compose.material3.Button
-import androidx.compose.material3.Icon
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
+import Workers.DB
 import androidx.compose.runtime.*
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 
 class Stage_data {
     var database = DB()
@@ -51,7 +37,7 @@ class Stage_data {
             constructing an Equipment_types object and
             putting data into the list
              */
-            stg.add(Data_types.Companion.Stage(id,StageCapacity, StageName))
+            stg.add(Data_types.Companion.Stage(id, StageCapacity, StageName))
         }
         Stages.addAll(stg)
     }

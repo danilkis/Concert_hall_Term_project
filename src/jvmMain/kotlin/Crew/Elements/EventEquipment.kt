@@ -1,8 +1,8 @@
-package Elements
-import Workers.Data_types
-import Workers.Equipment_data
-import Workers.EventEquipment_data
-import Workers.Stage_data
+package Crew.Elements
+import Crew.Workers.Data_types
+import Crew.Workers.Equipment_data
+import Crew.Workers.EventEquipment_data
+import Crew.Workers.Stage_data
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -20,10 +20,9 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
-import kotlinx.coroutines.launch
 
 @Composable
-fun EventEquipmentList() { //Лист с типами
+fun EventEquipmentList() { //Лист с карточками
     var Data = EventEquipment_data()
     LaunchedEffect(null) {
         Data.getEventEquipment()
