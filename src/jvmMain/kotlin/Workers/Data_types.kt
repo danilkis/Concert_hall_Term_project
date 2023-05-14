@@ -1,5 +1,7 @@
 package Workers
 
+import java.sql.Array
+
 class Data_types {
     companion object {
         data class Equipment_types(val id: Int?, val Type: String, val Subtype: String)
@@ -11,5 +13,8 @@ class Data_types {
         data class SectorStages(val StageId: Int, val StageName: String, val SectorId: Int, val SectorName: String)
 
         data class Artists(val id: Int?, val Name: String, val Manager_name: String, val Manager_phone: String, val Manager_email: String)
+
+        data class EventCrew(val EventName: String, val StageId: Int, val Workers: Array)
+
     }
 }

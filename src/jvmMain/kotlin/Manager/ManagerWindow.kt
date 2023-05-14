@@ -8,10 +8,7 @@ import Navigation.rememberNavController
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.runtime.Composable
@@ -19,6 +16,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.example.compose.ReplyTheme
 
 @Composable
 fun ManagerWindow() //navController: NavController
@@ -28,7 +26,7 @@ fun ManagerWindow() //navController: NavController
     val currentScreen by remember {
         navController.currentScreen
     }
-    MaterialTheme {
+    ReplyTheme (false) {
         Scaffold(
             modifier = Modifier.fillMaxSize()
         ) {

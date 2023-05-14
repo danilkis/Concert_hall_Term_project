@@ -23,6 +23,7 @@ fun EventScreen(navController: NavController) //Экран с секторами
 @Composable
 fun CrewScreen(navController: NavController) //Экран с оборудованием на событиях
 {
+    EventCrewList()
 }
 @Composable
 fun PlanningScreen(navController: NavController) //Экран с сценами
