@@ -1,6 +1,6 @@
 package Crew.Elements
 
-import Crew.Workers.Data_types
+import Workers.Data_types
 import Crew.Workers.Stage_data
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -94,9 +94,19 @@ fun AddStage() {
                     StageCapacity.value.toInt(),
                     StageName.value
                 )
-            );Stage_data().getStages(); scope.launch {
-                snackbarHostState.value.showSnackbar("Добавленно")
-            }
+            );Stage_data().getStages();
+                if(!Stages.State)
+                {
+                    scope.launch {
+                        snackbarHostState.value.showSnackbar("Добавленно")
+                    }
+                }
+                else
+                {
+                    scope.launch {
+                        snackbarHostState.value.showSnackbar("Что-то пошло не так, попробуйте еще раз")
+                    }
+                }
             },
             modifier = Modifier.padding(top = 8.dp)
         ) {
@@ -111,9 +121,19 @@ fun AddStage() {
                     StageCapacity.value.toInt(),
                     StageName.value
                 )
-            );Stage_data().getStages();  scope.launch {
-                snackbarHostState.value.showSnackbar("Удаленно")
-            }
+            );Stage_data().getStages();
+                if(!Stage.State)
+                {
+                    scope.launch {
+                        snackbarHostState.value.showSnackbar("Удаленно")
+                    }
+                }
+                else
+                {
+                    scope.launch {
+                        snackbarHostState.value.showSnackbar("Что-то пошло не так, попробуйте еще раз")
+                    }
+                }
             },
             modifier = Modifier.padding(top = 8.dp)
         ) {

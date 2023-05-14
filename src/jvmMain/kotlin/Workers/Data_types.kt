@@ -1,4 +1,4 @@
-package Crew.Workers
+package Workers
 
 class Data_types {
     companion object {
@@ -9,5 +9,7 @@ class Data_types {
         data class EventEquipment(val EventName: String, val StageName: String, val EventId: Int, val Type: String, val Subtype: String, val Manufacturer: String, val Stock: Int, val EquipmentId: Int)
 
         data class SectorStages(val StageId: Int, val StageName: String, val SectorId: Int, val SectorName: String)
+
+        data class Artists(val id: Int?, val Name: String, val Manager_name: String, val Manager_phone: String, val Manager_email: String)
     }
 }

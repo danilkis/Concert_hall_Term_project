@@ -1,18 +1,17 @@
 package Crew.Elements
 
-import Crew.Workers.Data_types
+import Workers.Data_types
 import Crew.Workers.Sector_data
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.SnackbarHostState
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.launch
 
 @Composable
 fun SectorList() { //Лист с типами
@@ -65,6 +64,9 @@ fun AddSector() {
     val SeatsStart = remember { mutableStateOf("") }
     val SeatsEnd = remember { mutableStateOf("") }
     val ID = remember { mutableStateOf("") }
+    val scope = rememberCoroutineScope()
+    val snackbarHostState = remember { mutableStateOf(SnackbarHostState()) }
+    androidx.compose.material.SnackbarHost(snackbarHostState.value)
     Row(modifier = Modifier.padding(16.dp)) {
         OutlinedTextField(
             value = ID.value,
@@ -110,7 +112,19 @@ fun AddSector() {
                     SeatsEnd.value.toInt(),
                     Name.value
                 )
-            ); Sector_data().getSectors() },
+            ); Sector_data().getSectors();
+                if(!Sector.State)
+                {
+                    scope.launch {
+                        snackbarHostState.value.showSnackbar("Добавленно")
+                    }
+                }
+                else
+                {
+                    scope.launch {
+                        snackbarHostState.value.showSnackbar("Что-то пошло не так, попробуйте еще раз")
+                    }
+                } },
             modifier = Modifier.padding(top = 8.dp)
         ) {
             Text("Добавить")
@@ -126,7 +140,19 @@ fun AddSector() {
                     SeatsEnd.value.toInt(),
                     Name.value
                 )
-            ); Sector_data().getSectors()
+            ); Sector_data().getSectors();
+                if(!Sector.State)
+                {
+                    scope.launch {
+                        snackbarHostState.value.showSnackbar("Удаллено")
+                    }
+                }
+                else
+                {
+                    scope.launch {
+                        snackbarHostState.value.showSnackbar("Что-то пошло не так, попробуйте еще раз")
+                    }
+                }
             },
             modifier = Modifier.padding(top = 8.dp)
         ) {

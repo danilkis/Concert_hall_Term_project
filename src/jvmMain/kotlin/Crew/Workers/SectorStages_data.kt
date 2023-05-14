@@ -1,16 +1,18 @@
 package Crew.Workers
 
 import Workers.DB
+import Workers.Data_types
 import androidx.compose.runtime.mutableStateListOf
 
 class SectorStages_data {
     var database = DB()
     var pass = DB().password_glob
     var login = DB().user_glob
+    var State = false
     companion object
     {
         var StagesSectors = mutableStateListOf<Data_types.Companion.SectorStages>()
-        var State = false
+
     }
     fun getStagesSectors() {
         StagesSectors.clear()
@@ -60,12 +62,19 @@ class SectorStages_data {
         |SET "StageId" = excluded."StageId",
         |    "SectorId" = excluded."SectorId"
         |""".trimMargin()
-        return connection.prepareStatement(query).use {
-            it.setObject(1, Type.StageId)
-            it.setObject(2, Type.SectorId)
-            it.executeUpdate()
+        try {
+            return connection.prepareStatement(query).use {
+                it.setObject(1, Type.StageId)
+                it.setObject(2, Type.SectorId)
+                it.executeUpdate()
+            }
+            State = true
+            this.getStagesSectors()
         }
-        Stage_data.State = false
+        catch (ex: Exception)
+        {
+            State = false
+        }
     }
     fun RemoveSectorStage(Type: Data_types.Companion.SectorStages) {
         val connection = database.establishPostgreSQLConnection(login, pass)
@@ -73,12 +82,19 @@ class SectorStages_data {
         |DELETE FROM "Hall"."StageSectors"
         |WHERE "StageId" = ? AND "SectorId" = ?
         |""".trimMargin()
-        return connection.prepareStatement(query).use {
-            it.setObject(1, Type.StageId)
-            it.setObject(2, Type.SectorId)
-            it.executeUpdate()
+        try
+        {
+            return connection.prepareStatement(query).use {
+                it.setObject(1, Type.StageId)
+                it.setObject(2, Type.SectorId)
+                it.executeUpdate()
+            }
+            this.getStagesSectors()
+            State = true
         }
-        this.getStagesSectors()
-        Stage_data.State = false
+        catch (ex: Exception)
+        {
+            State = false
+        }
     }
 }

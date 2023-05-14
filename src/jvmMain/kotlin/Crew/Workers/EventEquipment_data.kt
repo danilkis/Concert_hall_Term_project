@@ -1,16 +1,18 @@
 package Crew.Workers
 
 import Workers.DB
+import Workers.Data_types
 import androidx.compose.runtime.mutableStateListOf
 
 class EventEquipment_data {
     var database = DB()
     var pass = DB().password_glob
     var login = DB().user_glob
+    var State = false
     companion object
     {
         var EventEquipment = mutableStateListOf<Data_types.Companion.EventEquipment>()
-        var State = false
+
     }
     fun getEventEquipment() {
         EventEquipment.clear()
@@ -74,12 +76,20 @@ class EventEquipment_data {
         |SET "EquipmentId" = excluded."EquipmentId",
         |    "EventId" = excluded."EventId"
         |""".trimMargin()
-        return connection.prepareStatement(query).use {
-            it.setObject(1, Type.EventId)
-            it.setObject(2, Type.EquipmentId)
-            it.executeUpdate()
+        try
+        {
+            return connection.prepareStatement(query).use {
+                it.setObject(1, Type.EventId)
+                it.setObject(2, Type.EquipmentId)
+                it.executeUpdate()
+            }
+            State = true
+            this.getEventEquipment()
         }
-        State = false
+        catch (ex: Exception)
+        {
+            State = false
+        }
     }
     fun RemoveEventEquipment(Type: Data_types.Companion.EventEquipment) {
         val connection = database.establishPostgreSQLConnection(login, pass)
@@ -87,11 +97,18 @@ class EventEquipment_data {
         |DELETE FROM "Hall"."EventEquipment"
         |WHERE "EventId" = ? AND "EquipmentId" = ?
         |""".trimMargin()
-        return connection.prepareStatement(query).use {
-            it.setObject(1, Type.EventId)
-            it.setObject(2, Type.EquipmentId)
-            it.executeUpdate()
+        try
+        {
+            return connection.prepareStatement(query).use {
+                it.setObject(1, Type.EventId)
+                it.setObject(2, Type.EquipmentId)
+                it.executeUpdate()
+            }
+            State = true
         }
-        State = false
+        catch (ex: Exception)
+        {
+            State = false
+        }
     }
 }

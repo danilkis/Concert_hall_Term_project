@@ -1,6 +1,6 @@
 package Crew.Elements
 
-import Crew.Workers.Data_types
+import Workers.Data_types
 import Crew.Workers.Equipment_data
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -88,9 +88,19 @@ fun AddType() {
                     text1.value,
                     text2.value
                 )
-            );Equipment_data().getEquipmentTypes(); scope.launch {
-                snackbarHostState.value.showSnackbar("Добавленно")
-            }
+            );Equipment_data().getEquipmentTypes();
+                if(!Equipment.State)
+                {
+                    scope.launch {
+                        snackbarHostState.value.showSnackbar("Добавленно")
+                    }
+                }
+                else
+                {
+                    scope.launch {
+                        snackbarHostState.value.showSnackbar("Что-то пошло не так, попробуйте еще раз")
+                    }
+                }
             },
             modifier = Modifier.padding(top = 8.dp)
         ) {
@@ -105,9 +115,19 @@ fun AddType() {
                     text1.value,
                     text2.value
                 )
-            );Equipment_data().getEquipmentTypes();  scope.launch {
-                snackbarHostState.value.showSnackbar("Удаленно")
-            }
+            );Equipment_data().getEquipmentTypes();
+                if(!Equipment.State)
+                {
+                    scope.launch {
+                        snackbarHostState.value.showSnackbar("Удаленно")
+                    }
+                }
+                else
+                {
+                    scope.launch {
+                        snackbarHostState.value.showSnackbar("Что-то пошло не так, попробуйте еще раз")
+                    }
+                }
             },
             modifier = Modifier.padding(top = 8.dp)
         ) {
@@ -167,6 +187,9 @@ fun AddEquipment() {
     val Manufacturer = remember { mutableStateOf("") }
     val Stock = remember { mutableStateOf("") }
     val EqTypeId = remember { mutableStateOf("") }
+    val scope = rememberCoroutineScope()
+    val snackbarHostState = remember { mutableStateOf(SnackbarHostState()) }
+    SnackbarHost(snackbarHostState.value)
     Row(modifier = Modifier.padding(16.dp)) {
         OutlinedTextField(
             value = Id.value,
@@ -249,14 +272,26 @@ fun AddEquipment() {
         Spacer(modifier = Modifier.padding(8.dp))
         Button(
             onClick = {
-                Equipment_data().AddEquipment(
+                var Equipment = Equipment_data(); Equipment.AddEquipment(
                     Data_types.Companion.Equipment(
                         Id.value.toInt(),
                         selectedText1,
                         Stock.value.toInt(),
                         selectedText.toInt()
                     )
-                ); Equipment_data().getEquipmentPlain()
+                ); Equipment_data().getEquipmentPlain();
+                if(!Equipment.State)
+                {
+                    scope.launch {
+                        snackbarHostState.value.showSnackbar("Добавленно")
+                    }
+                }
+                else
+                {
+                    scope.launch {
+                        snackbarHostState.value.showSnackbar("Что-то пошло не так, попробуйте еще раз")
+                    }
+                }
             },
             modifier = Modifier.padding(top = 8.dp)
         ) {
@@ -272,7 +307,19 @@ fun AddEquipment() {
                     Stock.value.toInt(),
                     selectedText.toInt()
                 )
-            );Equipment.getEquipmentPlain()
+            );Equipment.getEquipmentPlain();
+                if(!Equipment.State)
+                {
+                    scope.launch {
+                        snackbarHostState.value.showSnackbar("Удаленно")
+                    }
+                }
+                else
+                {
+                    scope.launch {
+                        snackbarHostState.value.showSnackbar("Что-то пошло не так, попробуйте еще раз")
+                    }
+                }
             },
             modifier = Modifier.padding(top = 8.dp)
         ) {

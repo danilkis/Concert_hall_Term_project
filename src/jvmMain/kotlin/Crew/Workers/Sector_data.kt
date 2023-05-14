@@ -1,16 +1,17 @@
 package Crew.Workers
 
 import Workers.DB
+import Workers.Data_types
 import androidx.compose.runtime.mutableStateListOf
 
 class Sector_data {
     var database = DB()
     var pass = DB().password_glob
     var login = DB().user_glob
+    var State = false
     companion object
     {
         var Sector = mutableStateListOf<Data_types.Companion.Sector>()
-        var State = false
     }
     fun getSectors() {
         Sector.clear()
@@ -56,6 +57,8 @@ class Sector_data {
         |    "Seats_end" = excluded."Seats_end",
         |    "Name" = excluded."Name"
         |""".trimMargin()
+        try
+        {
             return connection.prepareStatement(query).use {
                 it.setObject(1, Type.id)
                 it.setObject(2, Type.SeatsTotal)
@@ -64,7 +67,12 @@ class Sector_data {
                 it.setObject(5, Type.Name)
                 it.executeUpdate()
             }
+            State = true
+        }
+        catch (ex: Exception)
+        {
             State = false
+        }
     }
     fun RemoveSectors(Type: Data_types.Companion.Sector) {
         val connection = database.establishPostgreSQLConnection(login, pass)
@@ -72,6 +80,7 @@ class Sector_data {
         |DELETE FROM "Hall"."Sectors"
         |WHERE "SectorId" = ? AND "SeatsTotal" = ? AND "Seats_start" = ? AND "Seats_end" = ? AND "Name" = ?
         |""".trimMargin()
+        try {
             return connection.prepareStatement(query).use {
                 it.setObject(1, Type.id)
                 it.setObject(2, Type.SeatsTotal)
@@ -80,6 +89,12 @@ class Sector_data {
                 it.setObject(5, Type.Name)
                 it.executeUpdate()
             }
+            State = true
+            this.getSectors()
+        }
+        catch (ex: Exception)
+        {
             State = false
+        }
     }
 }

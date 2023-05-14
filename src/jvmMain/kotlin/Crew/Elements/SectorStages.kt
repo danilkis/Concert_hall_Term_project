@@ -1,6 +1,6 @@
 package Crew.Elements
 
-import Crew.Workers.Data_types
+import Workers.Data_types
 import Crew.Workers.SectorStages_data
 import Crew.Workers.Sector_data
 import Crew.Workers.Stage_data
@@ -11,6 +11,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.SnackbarHostState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.ArrowForward
@@ -18,6 +19,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.launch
 
 @Composable
 fun SectorStagesList() { //Лист с типами
@@ -63,8 +65,9 @@ fun AddSectorStages() {
         Sector_data().getSectors()
         SectorStages_data().getStagesSectors()
     }
-    val StageId = remember { mutableStateOf("") }
-    val SectorId = remember { mutableStateOf("") }
+    val scope = rememberCoroutineScope()
+    val snackbarHostState = remember { mutableStateOf(SnackbarHostState()) }
+    androidx.compose.material.SnackbarHost(snackbarHostState.value)
     Row(modifier = Modifier.padding(16.dp)) {
         Spacer(modifier = Modifier.padding(8.dp))
         var expanded1 by remember { mutableStateOf(false) }
@@ -134,14 +137,26 @@ fun AddSectorStages() {
         Spacer(modifier = Modifier.padding(8.dp))
         Button(
             onClick = {
-                SectorStages_data().AddStageSector(
+                var srcstg = SectorStages_data(); srcstg.AddStageSector(
                     Data_types.Companion.SectorStages(
                         selectedText1.toInt(),
                         " ",
                         selectedText.toInt(),
                         " "
                     )
-                ); SectorStages_data().getStagesSectors()
+                ); SectorStages_data().getStagesSectors();
+                if(!srcstg.State)
+                {
+                    scope.launch {
+                        snackbarHostState.value.showSnackbar("Добавленно")
+                    }
+                }
+                else
+                {
+                    scope.launch {
+                        snackbarHostState.value.showSnackbar("Что-то пошло не так, попробуйте еще раз")
+                    }
+                }
             },
             modifier = Modifier.padding(top = 8.dp)
         ) {
@@ -150,14 +165,26 @@ fun AddSectorStages() {
         Spacer(modifier = Modifier.padding(8.dp))
         Button(
             onClick = {
-                SectorStages_data().RemoveSectorStage(
+                var stgsec = SectorStages_data(); stgsec.RemoveSectorStage(
                     Data_types.Companion.SectorStages(
                         selectedText1.toInt(),
                         " ",
                         selectedText.toInt(),
                         " "
                     )
-                ); SectorStages_data().getStagesSectors()
+                ); SectorStages_data().getStagesSectors();
+                if(!stgsec.State)
+                {
+                    scope.launch {
+                        snackbarHostState.value.showSnackbar("Удаленно")
+                    }
+                }
+                else
+                {
+                    scope.launch {
+                        snackbarHostState.value.showSnackbar("Что-то пошло не так, попробуйте еще раз")
+                    }
+                }
             },
             modifier = Modifier.padding(top = 8.dp)
         ) {

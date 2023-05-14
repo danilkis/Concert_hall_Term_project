@@ -1,6 +1,7 @@
 package Crew.Workers
 
 import Workers.DB
+import Workers.Data_types
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.toMutableStateList
 
@@ -8,11 +9,11 @@ class Equipment_data {
     var database = DB()
     var pass = database.password_glob
     var login = database.user_glob
-
+    var State = false
     companion object{
         var Eq_types = mutableStateListOf<Data_types.Companion.Equipment_types>()
         var equipment = mutableStateListOf<Data_types.Companion.Equipment>()
-        var State = false
+
     }
 
 
@@ -88,7 +89,7 @@ class Equipment_data {
                 it.setObject(2, Type.Subtype)
                 it.executeUpdate()
             }
-            State = false
+            State = true
             this.getEquipmentTypes()
         }
         catch (ex: Exception)
@@ -111,11 +112,11 @@ class Equipment_data {
                 it.executeUpdate()
             }
             this.getEquipmentTypes()
-            State = false
+            State = true
         }
         catch (ex: Exception)
         {
-            State = true
+            State = false
         }
     }
     fun AddEquipment(Type: Data_types.Companion.Equipment) {
@@ -140,11 +141,11 @@ class Equipment_data {
                 it.setObject(4, Type.EquipmentTypeId)
                 it.executeUpdate()
             }
-            State = false
+            State = true
         }
         catch (ex: Exception)
         {
-            State = true
+            State = false
         }
     }
     fun RemoveEquipment(Type: Data_types.Companion.Equipment) {
@@ -164,11 +165,11 @@ class Equipment_data {
                 it.setObject(4, Type.EquipmentTypeId)
                 it.executeUpdate()
             }
-            State = false
+            State = true
         }
             catch (ex: Exception)
             {
-                State = true
+                State = false
             }
     }
 }

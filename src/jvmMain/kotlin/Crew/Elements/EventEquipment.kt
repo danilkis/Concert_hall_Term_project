@@ -1,5 +1,5 @@
 package Crew.Elements
-import Crew.Workers.Data_types
+import Workers.Data_types
 import Crew.Workers.Equipment_data
 import Crew.Workers.EventEquipment_data
 import Crew.Workers.Stage_data
@@ -20,6 +20,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
+import kotlinx.coroutines.launch
 
 @Composable
 fun EventEquipmentList() { //Лист с карточками
@@ -101,11 +102,14 @@ fun EventEquipmentCard(EventEquipment: Data_types.Companion.EventEquipment) {
 }
 @Composable
 fun AddEventEquipment() {
+    val scope = rememberCoroutineScope()
+    val snackbarHostState = remember { mutableStateOf(SnackbarHostState()) }
     LaunchedEffect(null) {
         Stage_data().getStages()
         Equipment_data().getEquipmentPlain()
     }
     val EquipmentId = remember { mutableStateOf("") }
+    SnackbarHost(snackbarHostState.value)
     Row(modifier = Modifier.padding(16.dp)) {
         Spacer(modifier = Modifier.padding(8.dp))
         var expanded1 by remember { mutableStateOf(false) }
@@ -149,7 +153,7 @@ fun AddEventEquipment() {
         Spacer(modifier = Modifier.padding(8.dp))
         Button(
             onClick = {
-                EventEquipment_data().AddEventEquipment(
+                var eveq_dt = EventEquipment_data(); eveq_dt.AddEventEquipment(
                     Data_types.Companion.EventEquipment(
                         "",
                         "",
@@ -160,7 +164,19 @@ fun AddEventEquipment() {
                         0,
                         EquipmentId.value.toInt()
                     )
-                ); EventEquipment_data().getEventEquipment()
+                ); EventEquipment_data().getEventEquipment();
+                    if(!eveq_dt.State)
+                    {
+                        scope.launch {
+                            snackbarHostState.value.showSnackbar("Добавленно")
+                        }
+                    }
+                    else
+                    {
+                        scope.launch {
+                            snackbarHostState.value.showSnackbar("Что-то пошло не так, попробуйте еще раз")
+                        }
+                    }
             },
             modifier = Modifier.padding(top = 8.dp)
         ) {
@@ -169,7 +185,7 @@ fun AddEventEquipment() {
         Spacer(modifier = Modifier.padding(8.dp))
         Button(
             onClick = {
-                EventEquipment_data().RemoveEventEquipment(
+                var eveq_dt = EventEquipment_data(); eveq_dt.RemoveEventEquipment(
                     Data_types.Companion.EventEquipment(
                         "",
                         "",
@@ -180,7 +196,19 @@ fun AddEventEquipment() {
                         0,
                         EquipmentId.value.toInt()
                     )
-                ); EventEquipment_data().getEventEquipment()
+                ); EventEquipment_data().getEventEquipment();
+                if(!eveq_dt.State)
+                {
+                    scope.launch {
+                        snackbarHostState.value.showSnackbar("Удаленно")
+                    }
+                }
+                else
+                {
+                    scope.launch {
+                        snackbarHostState.value.showSnackbar("Что-то пошло не так, попробуйте еще раз")
+                    }
+                }
             },
             modifier = Modifier.padding(top = 8.dp)
         ) {
