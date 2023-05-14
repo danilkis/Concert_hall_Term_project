@@ -28,7 +28,6 @@ fun ManagerWindow() //navController: NavController
     val currentScreen by remember {
         navController.currentScreen
     }
-    //TODO: Сделать авторизацию
     MaterialTheme {
         Scaffold(
             modifier = Modifier.fillMaxSize()
