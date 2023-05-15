@@ -23,14 +23,22 @@ fun EventScreen(navController: NavController) //Экран с секторами
 @Composable
 fun CrewScreen(navController: NavController) //Экран с оборудованием на событиях
 {
-    Column()
+    Row(modifier = Modifier.fillMaxWidth())
     {
-        AddEventCrew()
-        EventCrewList()
+        Column()
+        {
+            AddEventCrew()
+            EventCrewList()
+        }
+
     }
 }
 @Composable
 fun PlanningScreen(navController: NavController) //Экран с сценами
 {
-
+    Column()
+    {
+        AddCrew()
+        CrewList()
+    }
 }

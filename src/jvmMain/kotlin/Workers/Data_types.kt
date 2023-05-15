@@ -16,6 +16,9 @@ class Data_types {
 
         data class EventCrew(val EventName: String, val StageId: Int, val Workers: Array)
         data class EventCrewAdd(val EventName: String, val Name: String, val Surname: String)
+        data class Crew(val Full_name: String, val Phone: String, val Email: String,val CrewType: String, val Sphere: String )
+
+        data class CrewAdd(val Name: String,val Surname: String, val ThirdName: String, val Phone: String, val Email: String,val CrewType: String)
 
     }
 }

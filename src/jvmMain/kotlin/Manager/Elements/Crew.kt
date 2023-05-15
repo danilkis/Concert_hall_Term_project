@@ -1,7 +1,5 @@
 package Manager.Elements
-
-import Crew.Workers.Equipment_data
-import Manager.Workers.Artist_data
+import Manager.Workers.Crew_data
 import Workers.Data_types
 import Manager.Workers.EventCrew_data
 import androidx.compose.foundation.clickable
@@ -13,9 +11,7 @@ import androidx.compose.material.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.SnackbarHostState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowDropDown
-import androidx.compose.material.icons.filled.ArrowForward
-import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
@@ -28,52 +24,59 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 
 @Composable
-fun EventCrewList() { //Лист с типами
-    var Data = EventCrew_data()
+fun CrewList() { //Лист с типами
+    var Data = Crew_data()
     LaunchedEffect(null) {
-        Data.getEventCrew()
+        Data.getCrew()
     }
-    var EventCrew = EventCrew_data.EventCrew
+    var Crew = Crew_data.Crew
     LazyColumn(modifier = Modifier
         .fillMaxWidth()) {
-        items(EventCrew) { Event ->
-            EventCrewCard(Event)
+        items(Crew) { Crew ->
+            CrewCard(Crew)
         }
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class) //Карточки с типами
 @Composable
-fun EventCrewCard(Artist: Data_types.Companion.EventCrew) {
+fun CrewCard(Crew: Data_types.Companion.Crew) {
     Card(
         modifier = Modifier
             .padding(8.dp)
             .fillMaxWidth()
     ) {
-        Column(
-            modifier = Modifier.padding(8.dp)
+        Row(
+            modifier = Modifier.padding(8.dp),
+            horizontalArrangement = Arrangement.SpaceEvenly
         ) {
-            Text(
-                text = Artist.EventName,
-                style = MaterialTheme.typography.h5
-            )
-            Text(
-                text = "ID сцены:" + Artist.StageId.toString(),
-                style = MaterialTheme.typography.body1
-            )
-            val names =Artist.Workers.toString()
-                .trim('{', '}')
-                .split(',')
-                .map { it.trim() }
-            LazyRow (){
-                items(names) { item ->
+            Column ()
+            {
+                Text(
+                    text = Crew.Full_name,
+                    style = MaterialTheme.typography.h5
+                )
+                Row()
+                {
                     AssistChip(
                         modifier = Modifier.padding(4.dp),
                         onClick = { /* Do something! */ },
-                        label = { Text(item) },
+                        label = { Text(Crew.Email) },
                         leadingIcon = {
                             Icon(
-                                Icons.Filled.Person,
+                                Icons.Filled.Email,
+                                contentDescription = "Localized description",
+                                Modifier.size(AssistChipDefaults.IconSize)
+                            )
+                        }
+                    )
+                    AssistChip(
+                        modifier = Modifier.padding(4.dp),
+                        onClick = { /* Do something! */ },
+                        label = { Text(Crew.Phone) },
+                        leadingIcon = {
+                            Icon(
+                                Icons.Filled.Phone,
                                 contentDescription = "Localized description",
                                 Modifier.size(AssistChipDefaults.IconSize)
                             )
@@ -81,16 +84,33 @@ fun EventCrewCard(Artist: Data_types.Companion.EventCrew) {
                     )
                 }
             }
+            Spacer(modifier = Modifier.padding(8.dp))
+            Column {
+                Text(
+                    text = "Должность",
+                    style = MaterialTheme.typography.h5
+                )
+                Text(
+                text = Crew.CrewType,
+                style = MaterialTheme.typography.body1
+            )
+                Text(
+                    text = Crew.Sphere,
+                    style = MaterialTheme.typography.body1
+                )}
+
+
         }
     }
 }
-
 @Composable
-fun AddEventCrew() {
+fun AddCrew() {
     val Surname = remember { mutableStateOf("") }
     val Name = remember { mutableStateOf("") }
-    val EventId = remember { mutableStateOf("") }
-
+    val ThirdName = remember { mutableStateOf("") }
+    val Phone = remember { mutableStateOf("") }
+    val Email = remember { mutableStateOf("") }
+    val Position = remember { mutableStateOf("") }
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { mutableStateOf(SnackbarHostState()) }
     androidx.compose.material.SnackbarHost(snackbarHostState.value)
@@ -109,8 +129,29 @@ fun AddEventCrew() {
             modifier = Modifier.weight(1f)
         )
         Spacer(modifier = Modifier.padding(8.dp))
+        OutlinedTextField(
+            value = ThirdName.value,
+            onValueChange = { ThirdName.value = it },
+            label = { Text("Отчество") },
+            modifier = Modifier.weight(1f)
+        )
+        Spacer(modifier = Modifier.padding(8.dp))
+        OutlinedTextField(
+            value = Phone.value,
+            onValueChange = { Phone.value = it },
+            label = { Text("Телефон") },
+            modifier = Modifier.weight(1f)
+        )
+        Spacer(modifier = Modifier.padding(8.dp))
+        OutlinedTextField(
+            value = Email.value,
+            onValueChange = { Email.value = it },
+            label = { Text("Почта") },
+            modifier = Modifier.weight(1f)
+        )
+        Spacer(modifier = Modifier.padding(8.dp))
         var expanded1 by remember { mutableStateOf(false) }
-        val suggestions1 = EventCrew_data.EventCrew.distinctBy { it.EventName }
+        val suggestions1 = Crew_data.Crew.distinctBy { it.Sphere }
         var selectedText1 by remember { mutableStateOf("") }
 
         val icon1 = if (expanded1)
@@ -121,7 +162,7 @@ fun AddEventCrew() {
             value = selectedText1,
             modifier = Modifier.weight(1f),
             onValueChange = { selectedText1 = it },
-            label = { Text("Событие") },
+            label = { Text("Должность") },
             trailingIcon = {
                 Icon(icon1, "contentDescription",
                     Modifier.clickable { expanded1 = !expanded1 })
@@ -134,30 +175,30 @@ fun AddEventCrew() {
         {
             suggestions1.forEach { label ->
                 DropdownMenuItem(onClick = {
-                    selectedText1 = label.EventName
+                    selectedText1 = label.CrewType
                 }) {
-                    Text(text = label.EventName)
+                    Text(text = label.CrewType)
                 }
             }
         }
         Spacer(modifier = Modifier.padding(8.dp))
         Button(
             onClick = {
-                val EvCr = EventCrew_data(); EvCr.AddEventCrew(
-                Data_types.Companion.EventCrewAdd(
-                    selectedText1,
+                val Cr = Crew_data(); Cr.AddCrew(
+                Data_types.Companion.CrewAdd(
                     Name.value,
-                    Surname.value
+                    Surname.value,
+                    ThirdName.value,
+                    Phone.value,
+                    Email.value,
+                    suggestions1.toString()
                 )
             );EventCrew_data().getEventCrew();
-                if(!EvCr.State)
-                {
+                if (!Cr.State) {
                     scope.launch {
                         snackbarHostState.value.showSnackbar("Добавленно")
                     }
-                }
-                else
-                {
+                } else {
                     scope.launch {
                         snackbarHostState.value.showSnackbar("Ошибка! Проверьте точность данных")
                     }
@@ -193,4 +234,3 @@ fun AddEventCrew() {
         }
     }
 }
-
