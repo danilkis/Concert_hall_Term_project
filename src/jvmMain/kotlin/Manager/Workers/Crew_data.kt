@@ -73,34 +73,39 @@ class Crew_data {
                 it.executeUpdate()
             }
             State = true
-            this.getCrew()
         }
-        catch (ex: Exception)
-        {
-            State = false
-        }
+            catch (ex: Exception)
+            {
+                State = false
+            }
     }
-    fun RemoveEventCrew(Type: Data_types.Companion.EventCrewAdd)//TODO: Написать удаление
+    fun RemoveCrew(Type: Data_types.Companion.CrewAdd)
     {
         val connection = database.establishPostgreSQLConnection(login, pass)
         val query = """
-        |DELETE FROM "Hall"."EventCrew"
-        |WHERE "EventId" = (SELECT "EventId" FROM "Hall"."Events" WHERE "EventName" = ?)
-        |AND "CrewMemberId" = (SELECT "CrewMemberId" FROM "Hall"."Crew" WHERE "Name" = ? AND "Surname" = ?);
+        |DELETE FROM "Hall"."Crew"
+        |WHERE "Name" = ? AND "Surname" = ? AND "ThirdName" = ? AND "Phone" = ? AND "Email" = ?
+        |AND "CrewMemberType" = (SELECT "CrewTypeId" FROM "Hall"."Crew_types" WHERE "Name" = ?);
         |""".trimMargin()
-        try {
+
             return connection.prepareStatement(query).use {
-                it.setString(1, Type.EventName)
-                it.setString(2, Type.Name)
-                it.setString(3, Type.Surname)
+                it.setString(1, Type.Name)
+                it.setString(2, Type.Surname)
+                it.setString(3, Type.ThirdName)
+                it.setString(4, Type.Phone)
+                it.setString(5, Type.Email)
+                it.setString(6, Type.CrewType)
                 it.executeUpdate()
             }
             this.getCrew()
             State = false
+        /*
         }
         catch (ex: Exception)
         {
             State = true
         }
+
+         */
     }
 }

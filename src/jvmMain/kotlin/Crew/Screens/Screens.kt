@@ -1,6 +1,7 @@
 package Crew.Screens
 
 import Crew.Elements.*
+import Manager.Elements.EventCrewList
 import Navigation.NavController
 import androidx.compose.foundation.layout.*
 import androidx.compose.ui.Modifier
@@ -34,10 +35,15 @@ fun SectorsScreen(navController: NavController) //Экран с секторам
 fun EventEquipmentScreen(navController: NavController) //Экран с оборудованием на событиях
 {
     Row(modifier = Modifier.fillMaxWidth()) {
-        Column(Modifier.weight(1f)) {
+        Column(Modifier.weight(0.75f)) {
             Column{
                 AddEventEquipment()
                EventEquipmentList()
+            }
+        }
+        Column(Modifier.weight(1f)) {
+            Column{
+                EventCrewList()
             }
         }
     }

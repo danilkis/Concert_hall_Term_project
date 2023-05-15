@@ -1,6 +1,7 @@
 package Workers
 
 import java.sql.Array
+import java.sql.Timestamp
 
 class Data_types {
     companion object {
@@ -19,6 +20,8 @@ class Data_types {
         data class Crew(val Full_name: String, val Phone: String, val Email: String,val CrewType: String, val Sphere: String )
 
         data class CrewAdd(val Name: String,val Surname: String, val ThirdName: String, val Phone: String, val Email: String,val CrewType: String)
+
+        data class Events(val EventName: String, val Start: Timestamp, val End: Timestamp, val Stage: String, val ArtistName: String)
 
     }
 }

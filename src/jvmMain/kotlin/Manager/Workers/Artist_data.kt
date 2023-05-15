@@ -37,11 +37,6 @@ class Artist_data {
             val manager_phone = result.getString("Manager_phone")
             val manager_email = result.getString("Manager_email")
 
-
-            /*
-            constructing an Equipment_types object and
-            putting data into the list
-             */
             art_dt.add(Data_types.Companion.Artists(id, name, manager_name, manager_phone, manager_email))
         }
         Artists.addAll(art_dt.toMutableStateList())
@@ -61,7 +56,6 @@ class Artist_data {
         |    "Manager_email" = excluded."Manager_email"
         |""".trimMargin()
         try {
-            //TODO: Пороверка телефона и почты
             return connection.prepareStatement(query).use {
                 it.setObject(1, Type.id)
                 it.setObject(2, Type.Name)

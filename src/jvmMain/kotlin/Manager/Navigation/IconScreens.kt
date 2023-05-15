@@ -12,7 +12,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 /**
  * Screens
  */
-enum class Screen(
+enum class Screen( //TODO: Иконки
     val label: String,
     val icon: ImageVector
 ) {

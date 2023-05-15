@@ -15,7 +15,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 enum class Screen(
     val label: String,
     val icon: ImageVector
-) {
+) { //TODO: Иконки
     HomeScreen(
         label = "Оборудавание",
         icon = Icons.Filled.List

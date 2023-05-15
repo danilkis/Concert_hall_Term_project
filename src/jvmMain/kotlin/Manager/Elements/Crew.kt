@@ -113,7 +113,7 @@ fun AddCrew() {
     val Position = remember { mutableStateOf("") }
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { mutableStateOf(SnackbarHostState()) }
-    androidx.compose.material.SnackbarHost(snackbarHostState.value)
+    SnackbarHost(snackbarHostState.value)
     Row(modifier = Modifier.padding(16.dp)) {
         OutlinedTextField(
             value = Surname.value,
@@ -160,7 +160,7 @@ fun AddCrew() {
             Icons.Filled.ArrowDropDown
         OutlinedTextField(
             value = selectedText1,
-            modifier = Modifier.weight(1f),
+            modifier = Modifier.weight(2f),
             onValueChange = { selectedText1 = it },
             label = { Text("Должность") },
             trailingIcon = {
@@ -170,7 +170,7 @@ fun AddCrew() {
         )
         DropdownMenu(
             expanded = expanded1,
-            modifier = Modifier.weight(1f),
+            modifier = Modifier.weight(2f),
             onDismissRequest = { expanded1 = false })
         {
             suggestions1.forEach { label ->
@@ -191,9 +191,9 @@ fun AddCrew() {
                     ThirdName.value,
                     Phone.value,
                     Email.value,
-                    suggestions1.toString()
+                    selectedText1.toString()
                 )
-            );EventCrew_data().getEventCrew();
+            );Crew_data().getCrew();
                 if (!Cr.State) {
                     scope.launch {
                         snackbarHostState.value.showSnackbar("Добавленно")
@@ -211,14 +211,17 @@ fun AddCrew() {
         Spacer(modifier = Modifier.padding(8.dp))
         Button(
             onClick = {
-                val EvCr = EventCrew_data(); EvCr.RemoveEventCrew(
-                Data_types.Companion.EventCrewAdd(
-                    selectedText1,
+                val Cr = Crew_data(); Cr.RemoveCrew(
+                Data_types.Companion.CrewAdd(
                     Name.value,
-                    Surname.value
+                    Surname.value,
+                    ThirdName.value,
+                    Phone.value,
+                    Email.value,
+                    selectedText1.toString()
                 )
-            );EventCrew_data().getEventCrew();
-                if (!EvCr.State) {
+            );Crew_data().getCrew();
+                if (!Cr.State) {
                     scope.launch {
                         snackbarHostState.value.showSnackbar("Удаленно")
                     }

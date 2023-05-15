@@ -1,0 +1,126 @@
+package Manager.Workers
+
+import Workers.DB
+import Workers.Data_types
+import androidx.compose.runtime.mutableStateListOf
+
+class Event_data {
+    var database = DB()
+    var pass = database.password_glob
+    var login = database.user_glob
+    var State = false
+    companion object{
+        var Event = mutableStateListOf<Data_types.Companion.Events>()
+    }
+
+
+    fun getEvents() {
+        Event.clear()
+        val connection = database.establishPostgreSQLConnection(login, pass)
+        val query = """
+        |SELECT "Hall"."Events"."EventName","Hall"."Events"."Start", "Hall"."Events"."End", "Hall"."Stages"."StageName", "Hall"."Artists"."Name"
+        |FROM "Hall"."Events"
+        |INNER JOIN "Hall"."EventArtists" ON "Hall"."Events"."EventId" = "Hall"."EventArtists"."EventId"
+        |INNER JOIN "Hall"."Artists" ON "Hall"."EventArtists"."ArtistId" = "Hall"."Artists"."ArtistId"
+        |INNER JOIN "Hall"."Stages" ON "Hall"."Events"."Stage" = "Hall"."Stages"."StageId";
+        |""".trimMargin()
+        val query1 = connection.prepareStatement(query)
+
+        // the query is executed and results are fetched
+        val result = query1.executeQuery()
+
+        // an empty list for holding the results
+        val ev = mutableStateListOf<Data_types.Companion.Events>()
+
+        while(result.next()){
+
+            // getting the value of the id column
+            val EventName = result.getString("EventName")
+
+            // getting the value of the name column
+            val Start = result.getTimestamp("Start")
+            val End = result.getTimestamp("End")
+            val Stage = result.getString("StageName")
+            val Name = result.getString("Name")
+            ev.add(
+                Data_types.Companion.Events(
+                    EventName,
+                    Start,
+                    End,
+                    Stage,
+                    Name
+                )
+            )
+        }
+        Event.addAll(ev)
+    }
+    fun AddCrew(Type: Data_types.Companion.Events) //TODO: Тестирование
+    {
+        try
+        {
+            val connection = database.establishPostgreSQLConnection(login, pass)
+            val query = """
+        |WITH stage AS (
+        |   SELECT "StageId"
+        |   FROM "Hall"."Stages"
+        |   WHERE "StageName" = '?'
+        |)
+        |INSERT INTO "Hall"."Events" ("EventName", "Start", "End", "Stage")
+        |SELECT '?', '?', '?', stage."StageId";
+        |INSERT INTO "Hall"."EventArtists" ("ArtistId", "EventId")
+        |SELECT
+        |   a."ArtistId",
+        |   e."EventId"
+        |FROM
+        |   "Hall"."Artists" a
+        |JOIN
+        |   "Hall"."Events" e ON 1 = 1
+        |WHERE
+        |   a."Name" = ? 
+        |   AND e."EventName" = ?; 
+        |""".trimMargin()
+            return connection.prepareStatement(query).use {
+                it.setString(1, Type.Stage)
+                it.setString(2, Type.EventName)
+                it.setTimestamp(3, Type.Start)
+                it.setTimestamp(4, Type.End)
+                it.setString(5, Type.ArtistName)
+                it.setString(6, Type.EventName)
+                it.executeUpdate()
+            }
+            State = true
+        }
+        catch (ex: Exception)
+        {
+            State = false
+        }
+    }
+    fun RemoveCrew(Type: Data_types.Companion.CrewAdd)
+    {
+        try
+        {
+            val connection = database.establishPostgreSQLConnection(login, pass)
+            val query = """
+        |DELETE FROM "Hall"."Crew"
+        |WHERE "Name" = ? AND "Surname" = ? AND "ThirdName" = ? AND "Phone" = ? AND "Email" = ?
+        |AND "CrewMemberType" = (SELECT "CrewTypeId" FROM "Hall"."Crew_types" WHERE "Name" = ?);
+        |""".trimMargin()
+
+            return connection.prepareStatement(query).use {
+                it.setString(1, Type.Name)
+                it.setString(2, Type.Surname)
+                it.setString(3, Type.ThirdName)
+                it.setString(4, Type.Phone)
+                it.setString(5, Type.Email)
+                it.setString(6, Type.CrewType)
+                it.executeUpdate()
+            }
+            this.getEvents()
+            State = false
+        }
+        catch (ex: Exception)
+        {
+            State = true
+        }
+    }
+}

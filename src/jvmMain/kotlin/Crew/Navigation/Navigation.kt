@@ -30,6 +30,5 @@ fun CustomNavigationHost(
         composable(Screen.ProfileScreens.name) {
             EventEquipmentScreen(navController)
         }
-
     }.build()
 }
