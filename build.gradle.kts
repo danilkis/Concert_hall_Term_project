@@ -45,8 +45,14 @@ compose.desktop {
         mainClass = "MainKt"
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "Hall"
+            packageName = "Blue Rose"
             packageVersion = "1.0.0"
+
+            val iconsRoot = project.file("src/jvmMain/resources/drawables/icon.jpg")
+
+            windows {
+                iconFile.set(iconsRoot)
+            }
         }
     }
 }

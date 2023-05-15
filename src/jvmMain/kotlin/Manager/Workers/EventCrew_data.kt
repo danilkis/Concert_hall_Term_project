@@ -51,28 +51,21 @@ class EventCrew_data {
         }
         EventCrew.addAll(evcr)
     }
-    fun AddArtist(Type: Data_types.Companion.Artists) //TODO: Написать добавление, ограничение на уникальность
+    fun AddEventCrew(Type: Data_types.Companion.EventCrewAdd) //TODO: Написать добавление, ограничение на уникальность
     {
-        val connection = database.establishPostgreSQLConnection(login, pass)
-        val query = """
-        |INSERT INTO "Hall"."Artists"
-        |("ArtistId", "Name","Manager_name","Manager_phone","Manager_email")
-        |VALUES (?, ?, ?, ?, ?)
-        |ON CONFLICT ("ArtistId") DO UPDATE
-        |SET "ArtistId" = excluded."ArtistId",
-        |    "Name" = excluded."Name",
-        |    "Manager_name" = excluded."Manager_name",
-        |    "Manager_phone" = excluded."Manager_phone",
-        |    "Manager_email" = excluded."Manager_email"
-        |""".trimMargin()
         try {
-            //TODO: Пороверка телефона и почты
+            val connection = database.establishPostgreSQLConnection(login, pass)
+            val query = """
+        |INSERT INTO "Hall"."EventCrew" ("EventId", "CrewMemberId")
+        |SELECT e."EventId", c."CrewMemberId"
+        |FROM "Hall"."Events" e
+        |JOIN "Hall"."Crew" c ON c."Name" = ? AND c."Surname" = ?
+        |WHERE e."EventName" = ?;
+        |""".trimMargin()
             return connection.prepareStatement(query).use {
-                it.setObject(1, Type.id)
-                it.setObject(2, Type.Name)
-                it.setObject(3, Type.Manager_name)
-                it.setObject(4, Type.Manager_phone)
-                it.setObject(5, Type.Manager_email)
+                it.setString(1, Type.Name)
+                it.setString(2, Type.Surname)
+                it.setString(3, Type.EventName)
                 it.executeUpdate()
             }
             State = true
@@ -83,11 +76,11 @@ class EventCrew_data {
             State = false
         }
     }
-    fun RemoveType(Type: Data_types.Companion.Equipment_types)//TODO: Написать удаление
+    fun RemoveEventCrew(Type: Data_types.Companion.Equipment_types)//TODO: Написать удаление
     {
         val connection = database.establishPostgreSQLConnection(login, pass)
         val query = """
-        |DELETE FROM "Hall"."Equipment_types"
+        |DELETE FROM "Hall"."EventCrew"
         |WHERE "Type" = ? AND "Subtype" = ?
         |""".trimMargin()
         try {

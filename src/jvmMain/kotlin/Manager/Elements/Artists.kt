@@ -136,23 +136,33 @@ fun AddArtist() {
             Text("Добавить")
         }
         Spacer(modifier = Modifier.padding(8.dp))
-        /*
         Button(
             onClick = {
-                val Equipment = Equipment_data(); Equipment.RemoveType(
-                Data_types.Companion.Equipment_types(
-                    null,
-                    text1.value,
-                    text2.value
+                val Artists = Artist_data(); Artists.RemoveArtist(
+                Data_types.Companion.Artists(
+                    Id.value.toInt(),
+                    Artist.value,
+                    Manager.value,
+                    Phone.value,
+                    Email.value
                 )
-            );Equipment_data().getEquipmentTypes();  scope.launch {
-                snackbarHostState.value.showSnackbar("Удаленно")
-            }
+            );Artist_data().getArtists();
+                if(!Artists.State)
+                {
+                    scope.launch {
+                        snackbarHostState.value.showSnackbar("Удаленно")
+                    }
+                }
+                else
+                {
+                    scope.launch {
+                        snackbarHostState.value.showSnackbar("Ошибка! Проверьте точность данных")
+                    }
+                }
             },
             modifier = Modifier.padding(top = 8.dp)
         ) {
             Text("Удалить")
         }
-         */
     }
 }

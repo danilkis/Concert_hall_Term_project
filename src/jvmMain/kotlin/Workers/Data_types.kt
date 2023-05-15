@@ -15,6 +15,7 @@ class Data_types {
         data class Artists(val id: Int?, val Name: String, val Manager_name: String, val Manager_phone: String, val Manager_email: String)
 
         data class EventCrew(val EventName: String, val StageId: Int, val Workers: Array)
+        data class EventCrewAdd(val EventName: String, val Name: String, val Surname: String)
 
     }
 }

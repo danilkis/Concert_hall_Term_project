@@ -78,18 +78,16 @@ class Artist_data {
             State = false
         }
     }
-    fun RemoveType(Type: Data_types.Companion.Equipment_types)
+    fun RemoveArtist(Type: Data_types.Companion.Artists)
     {
         val connection = database.establishPostgreSQLConnection(login, pass)
         val query = """
-        |DELETE FROM "Hall"."Equipment_types"
-        |WHERE "Type" = ? AND "Subtype" = ?
+        |DELETE FROM "Hall"."Artists"
+        |WHERE "ArtistId" = ?
         |""".trimMargin()
         try {
-            if (Type.Type.isBlank() || Type.Subtype.isBlank()) {throw IllegalStateException("Пустые поля!")}
             return connection.prepareStatement(query).use {
-                it.setObject(1, Type.Type)
-                it.setObject(2, Type.Subtype)
+                it.setObject(1, Type.id)
                 it.executeUpdate()
             }
             this.getArtists()

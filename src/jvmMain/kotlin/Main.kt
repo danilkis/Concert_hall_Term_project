@@ -10,8 +10,8 @@ import com.example.compose.ReplyTheme
 fun App() {
     ReplyTheme(false)
     {
-        AuthScreen()
-        //ManagerWindow()
+        //AuthScreen()
+        ManagerWindow()
     }
     }
 fun main() = application {
