@@ -191,7 +191,7 @@ fun AddCrew() {
                     ThirdName.value,
                     Phone.value,
                     Email.value,
-                    selectedText1.toString()
+                    selectedText1
                 )
             );Crew_data().getCrew();
                 if (!Cr.State) {
@@ -218,7 +218,7 @@ fun AddCrew() {
                     ThirdName.value,
                     Phone.value,
                     Email.value,
-                    selectedText1.toString()
+                    selectedText1
                 )
             );Crew_data().getCrew();
                 if (!Cr.State) {

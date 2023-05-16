@@ -81,6 +81,8 @@ class Crew_data {
     }
     fun RemoveCrew(Type: Data_types.Companion.CrewAdd)
     {
+        try
+        {
         val connection = database.establishPostgreSQLConnection(login, pass)
         val query = """
         |DELETE FROM "Hall"."Crew"
@@ -99,13 +101,10 @@ class Crew_data {
             }
             this.getCrew()
             State = false
-        /*
         }
         catch (ex: Exception)
         {
             State = true
         }
-
-         */
     }
 }

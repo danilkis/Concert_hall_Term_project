@@ -54,65 +54,75 @@ class Event_data {
         }
         Event.addAll(ev)
     }
-    fun AddCrew(Type: Data_types.Companion.Events) //TODO: Тестирование
+    fun AddEvent(Type: Data_types.Companion.Events) //TODO: Тестирование
     {
         try
         {
-            val connection = database.establishPostgreSQLConnection(login, pass)
-            val query = """
+        val connection = database.establishPostgreSQLConnection(login, pass)
+        val query = """
         |WITH stage AS (
-        |   SELECT "StageId"
-        |   FROM "Hall"."Stages"
-        |   WHERE "StageName" = '?'
+        |SELECT "StageId"
+        |FROM "Hall"."Stages"
+        |WHERE "StageName" = ?
         |)
         |INSERT INTO "Hall"."Events" ("EventName", "Start", "End", "Stage")
-        |SELECT '?', '?', '?', stage."StageId";
+        |SELECT ?, ?, ?, stage."StageId"
+        |FROM stage; -- Include the CTE in the main query
         |INSERT INTO "Hall"."EventArtists" ("ArtistId", "EventId")
         |SELECT
         |   a."ArtistId",
         |   e."EventId"
         |FROM
-        |   "Hall"."Artists" a
+        |"Hall"."Artists" a
         |JOIN
-        |   "Hall"."Events" e ON 1 = 1
+        |"Hall"."Events" e ON 1 = 1
         |WHERE
-        |   a."Name" = ? 
-        |   AND e."EventName" = ?; 
-        |""".trimMargin()
-            return connection.prepareStatement(query).use {
-                it.setString(1, Type.Stage)
-                it.setString(2, Type.EventName)
-                it.setTimestamp(3, Type.Start)
-                it.setTimestamp(4, Type.End)
-                it.setString(5, Type.ArtistName)
-                it.setString(6, Type.EventName)
-                it.executeUpdate()
-            }
-            State = true
+        |a."Name" = ?
+        |AND e."EventName" = ?;
+    """.trimMargin()
+        return connection.prepareStatement(query).use {
+            it.setString(1, Type.Stage)
+            it.setString(2, Type.EventName)
+            it.setTimestamp(3, Type.Start)
+            it.setTimestamp(4, Type.End)
+            it.setString(5, Type.ArtistName)
+            it.setString(6, Type.EventName)
+            it.executeUpdate()
+        }
         }
         catch (ex: Exception)
         {
             State = false
         }
+
     }
-    fun RemoveCrew(Type: Data_types.Companion.CrewAdd)
+    fun RemoveEvent(Type: Data_types.Companion.Events)
     {
         try
         {
             val connection = database.establishPostgreSQLConnection(login, pass)
             val query = """
-        |DELETE FROM "Hall"."Crew"
-        |WHERE "Name" = ? AND "Surname" = ? AND "ThirdName" = ? AND "Phone" = ? AND "Email" = ?
-        |AND "CrewMemberType" = (SELECT "CrewTypeId" FROM "Hall"."Crew_types" WHERE "Name" = ?);
+        |DELETE FROM "Hall"."Events"
+        |WHERE "Hall"."Events"."EventId" IN (
+        |SELECT "Hall"."EventArtists"."EventId"
+        |FROM "Hall"."EventArtists"
+        |INNER JOIN "Hall"."Artists" ON "Hall"."EventArtists"."ArtistId" = "Hall"."Artists"."ArtistId"
+        |INNER JOIN "Hall"."Events" ON "Hall"."EventArtists"."EventId" = "Hall"."Events"."EventId"
+        |INNER JOIN "Hall"."Stages" ON "Hall"."Events"."Stage" = "Hall"."Stages"."StageId"
+        |WHERE "Hall"."Events"."EventName" = ?
+        |AND "Hall"."Events"."Start" = ?
+        |AND "Hall"."Events"."End" = ?
+        |AND "Hall"."Stages"."StageName" = ?
+        |AND "Hall"."Artists"."Name" = ?
+        |);
         |""".trimMargin()
 
             return connection.prepareStatement(query).use {
-                it.setString(1, Type.Name)
-                it.setString(2, Type.Surname)
-                it.setString(3, Type.ThirdName)
-                it.setString(4, Type.Phone)
-                it.setString(5, Type.Email)
-                it.setString(6, Type.CrewType)
+                it.setString(1, Type.EventName)
+                it.setTimestamp(2, Type.Start)
+                it.setTimestamp(3, Type.End)
+                it.setString(4, Type.Stage)
+                it.setString(5, Type.ArtistName)
                 it.executeUpdate()
             }
             this.getEvents()

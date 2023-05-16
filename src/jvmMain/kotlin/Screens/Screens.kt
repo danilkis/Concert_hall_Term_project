@@ -25,6 +25,7 @@ fun EventScreen(navController: NavController) //Экран с секторами
 {
     Column()
     {
+        AddEvent()
         EventList()
     }
 }
