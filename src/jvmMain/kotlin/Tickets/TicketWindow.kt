@@ -21,7 +21,7 @@ import com.example.compose.ReplyTheme
 @Composable
 fun TicketWindow() //navController: NavController
 {
-    val screens = Screen.values().toList()
+    val screens = Tickets.Navigation.Screen.values().toList()
     val navController by rememberNavController(Tickets.Navigation.Screen.TicketScreen.name)
     val currentScreen by remember {
         navController.currentScreen

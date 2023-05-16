@@ -5,6 +5,7 @@ import Crew.Screens.SectorsScreen
 import Crew.Screens.StageInfoScreen
 import Navigation.NavController
 import Navigation.NavigationHost
+import Navigation.Screen
 import Navigation.composable
 import Tickets.TicketScreen
 import androidx.compose.runtime.Composable

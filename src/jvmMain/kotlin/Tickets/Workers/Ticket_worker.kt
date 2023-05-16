@@ -47,7 +47,7 @@ class Ticket_worker {
             val DateOfPurchanse = result.getTimestamp("DateOfPurchanse")
 
             val Used = result.getBoolean("Used")
-            val EventName = result.getString("Seats_end")
+            val EventName = result.getString("EventName")
             val TicketTypeName = result.getString("TicketTypeName")
             val SectorName = result.getString("Name")
             tick.add(Data_types.Companion.Ticket(Price, DateOfPurchanse, Used, EventName, TicketTypeName,SectorName))

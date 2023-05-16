@@ -10,7 +10,6 @@ fun App() {
     ReplyTheme(false)
     {
         TicketWindow()
-        //AuthScreen()
     }
     }
 fun main() = application {
