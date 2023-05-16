@@ -1,4 +1,5 @@
 import Auth.AuthScreen
+import Tickets.TicketWindow
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import androidx.compose.runtime.Composable
@@ -8,7 +9,8 @@ import com.example.compose.ReplyTheme
 fun App() {
     ReplyTheme(false)
     {
-        AuthScreen()
+        TicketWindow()
+        //AuthScreen()
     }
     }
 fun main() = application {
