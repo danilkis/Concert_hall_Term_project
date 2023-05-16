@@ -1,12 +1,11 @@
 package Screens
 
-import Crew.Elements.AddSectorStages
-import Crew.Elements.AddStage
-import Crew.Elements.SectorStagesList
-import Crew.Elements.StagesList
+import Crew.Elements.*
 import Manager.Elements.*
 import Navigation.NavController
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.ui.Modifier
 import androidx.compose.runtime.Composable
 
@@ -50,5 +49,33 @@ fun CrewScreen(navController: NavController) //Экран с оборудова�
 @Composable
 fun PlanningScreen(navController: NavController) //Экран с сценами
 {
-
+    Row(modifier = Modifier.fillMaxWidth()) {
+        Column(Modifier.weight(1f)) {
+            Text(
+                text = "Сцены",
+                style = MaterialTheme.typography.h5
+            )
+            Column{
+                StagesList()
+            }
+        }
+        Column(Modifier.weight(1.5f)) {
+            Column{
+                Text(
+                    text = "Сектора",
+                    style = MaterialTheme.typography.h5
+                )
+                SectorList()
+            }
+        }
+        Column(Modifier.weight(1.5f)) {
+            Column{
+                Text(
+                    text = "Сектора-Сцены",
+                    style = MaterialTheme.typography.h5
+                )
+                SectorStagesList()
+            }
+        }
+    }
 }
