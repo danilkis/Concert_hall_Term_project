@@ -57,12 +57,19 @@ fun AuthScreen() {
             Button(
                 onClick = {
                     val Database = DB()
-                    Database.user_glob = Login.value
-                    Database.password_glob = Password.value
-                    Database.establishPostgreSQLConnection(Database.user_glob, Database.password_glob)
+                    DB.user_glob = Login.value
+                    DB.password_glob = Password.value
+                    Database.establishPostgreSQLConnection(DB.user_glob, DB.password_glob)
                     commentsAlpha = 0f
                     isVisible.value = false
-                    navController.navigate(Navigation.Screen.CrewScreen.name)
+                    if (Login.value == "crew_worker")
+                    {
+                        navController.navigate(Navigation.Screen.CrewScreen.name)
+                    }
+                    else if (Login.value == "hall_manager")
+                    {
+                        navController.navigate(Navigation.Screen.ManagerScreen.name)
+                    }
                 },
                 modifier = Modifier.padding(top = 8.dp).alpha(if (isVisible.value) 1f else 0f)
             ) {

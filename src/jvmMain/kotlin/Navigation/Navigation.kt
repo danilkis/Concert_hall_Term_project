@@ -6,6 +6,7 @@ import Crew.Screens.EquipmentScreen
 import Crew.Screens.EventEquipmentScreen
 import Crew.Screens.SectorsScreen
 import Crew.Screens.StageInfoScreen
+import Manager.ManagerScreen
 import androidx.compose.runtime.Composable
 
 @Composable
@@ -17,8 +18,8 @@ fun CustomNavigationHostGlobal(
             CrewWindow(navController)
         }
 
-        composable(Screen.NotificationsScreen.name) {
-            SectorsScreen(navController)
+        composable(Navigation.Screen.ManagerScreen.name) {
+            ManagerScreen(navController)
         }
 
         composable(Screen.SettingsScreen.name) {

@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import com.example.compose.ReplyTheme
 
 @Composable
-fun ManagerWindow() //navController: NavController
+fun ManagerScreen(navController: NavController) //
 {
     val screens = Screen.values().toList()
     val navController by rememberNavController(Screen.ArtistScreen.name)

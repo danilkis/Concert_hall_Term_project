@@ -6,8 +6,8 @@ import androidx.compose.runtime.mutableStateListOf
 
 class Sector_data {
     var database = DB()
-    var pass = DB().password_glob
-    var login = DB().user_glob
+    var pass = DB.password_glob
+    var login = DB.user_glob
     var State = false
     companion object
     {

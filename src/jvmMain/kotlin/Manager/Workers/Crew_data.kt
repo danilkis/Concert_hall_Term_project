@@ -6,8 +6,8 @@ import androidx.compose.runtime.mutableStateListOf
 
 class Crew_data {
     var database = DB()
-    var pass = database.password_glob
-    var login = database.user_glob
+    var pass = DB.password_glob
+    var login = DB.user_glob
     var State = false
     companion object{
         var Crew = mutableStateListOf<Data_types.Companion.Crew>()
