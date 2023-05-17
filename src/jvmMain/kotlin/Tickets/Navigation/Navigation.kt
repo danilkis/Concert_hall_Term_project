@@ -7,6 +7,7 @@ import Navigation.NavController
 import Navigation.NavigationHost
 import Navigation.Screen
 import Navigation.composable
+import Tickets.AttendeesScreen
 import Tickets.TicketScreen
 import androidx.compose.runtime.Composable
 
@@ -16,11 +17,11 @@ fun CustomNavigationHostTickets(
 ) {
     NavigationHost(navController) {
         composable(Tickets.Navigation.Screen.TicketScreen.name) {
-            TicketScreen(navController) //TODO: Заменить
+            TicketScreen(navController)
         }
 
         composable(Tickets.Navigation.Screen.VisitorsScreen.name) {
-            SectorsScreen(navController)
+            AttendeesScreen(navController)
         }
 
         composable(Tickets.Navigation.Screen.StagesScreen.name) {

@@ -101,7 +101,6 @@ fun EventCard(Event: Data_types.Companion.Events) {
         }
     }
 }
-//TODO: Добавить бар с полями
 fun stringToTimestamp(dateString: String): Timestamp {
     val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
     val parsedDate = dateFormat.parse(dateString)

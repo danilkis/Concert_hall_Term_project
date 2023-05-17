@@ -3,6 +3,9 @@ package Tickets
 import Crew.Elements.*
 import Manager.Elements.EventCrewList
 import Navigation.NavController
+import Tickets.Elements.AddAttendee
+import Tickets.Elements.AddTicket
+import Tickets.Elements.AttendeeList
 import Tickets.Elements.TicketList
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -14,13 +17,20 @@ import androidx.compose.ui.Modifier
 fun TicketScreen(navController: NavController) //Экран с оборудованием
 {
     Row(modifier = Modifier.fillMaxWidth()) {
-        TicketList()
+        Column {
+            AddTicket()
+            TicketList()  }
+
     }
 }
 @Composable
-fun SectorsScreen(navController: NavController) //Экран с секторами
+fun AttendeesScreen(navController: NavController) //Экран с секторами
 {
-
+    Row(modifier = Modifier.fillMaxWidth()) {
+        Column {
+            AddAttendee()
+            AttendeeList()  }
+    }
 }
 @Composable
 fun EventEquipmentScreen(navController: NavController) //Экран с оборудованием на событиях

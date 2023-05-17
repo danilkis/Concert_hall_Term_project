@@ -1,8 +1,19 @@
 package Tickets.Workers
 
+import Crew.Workers.Sector_data
 import Workers.DB
 import Workers.Data_types
-import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.SnackbarHostState
+import androidx.compose.material3.Button
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
+import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.launch
 
 class Ticket_worker {
     var database = DB()
@@ -29,7 +40,7 @@ class Ticket_worker {
         |JOIN "Hall"."Ticket_types" AS TT ON T."TicketType" = TT."TicketTypeId"
         |JOIN "Hall"."Sectors" AS SS ON TT."Sector" = SS."SectorId"
         |JOIN "Hall"."Events" AS EV ON EV."EventId" = T."Event";  
-        |""".trimMargin() //TODO: Посмотреть что с загрузкой, и поставить в случае чего лимит на 100
+        |""".trimMargin()
         val query1 = connection.prepareStatement(query)
 
         // the query is executed and results are fetched
@@ -54,36 +65,40 @@ class Ticket_worker {
         }
         Tickets.addAll(tick)
     }
-    /*
-    fun AddSector(Type: Data_types.Companion.Sector)
+    fun AddTicket(Type: Data_types.Companion.Ticket)
     {
         val connection = database.establishPostgreSQLConnection(login, pass)
         val query = """
-        |INSERT INTO "Hall"."Sectors"
-        |("SectorId", "SeatsTotal", "Seats_start", "Seats_end", "Name")
-        |VALUES (?, ?, ?, ?, ?)
-        |ON CONFLICT ("SectorId") DO UPDATE
-        |SET "SeatsTotal" = excluded."SeatsTotal",
-        |    "Seats_start" = excluded."Seats_start",
-        |    "Seats_end" = excluded."Seats_end",
-        |    "Name" = excluded."Name"
+        |INSERT INTO "Hall"."Tickets" ("Price", "DateOfPurchanse", "Used", "TicketType", "Event")
+        |SELECT ?, ?, ?, tt."TicketTypeId", e."EventId"
+        |FROM (
+        |   SELECT "TicketTypeId"
+        |   FROM "Hall"."Ticket_types"
+        |   WHERE "Name" = ?
+        | ) AS tt, "Hall"."Events" e
+        |WHERE e."EventName" = ?;
         |""".trimMargin()
+        /*
         try
         {
-            return connection.prepareStatement(query).use {
-                it.setObject(1, Type.id)
-                it.setObject(2, Type.SeatsTotal)
-                it.setObject(3, Type.SeatsStart)
-                it.setObject(4, Type.SeatsEnd)
-                it.setObject(5, Type.Name)
+
+         */
+            return connection.prepareStatement(query).use {//TODO: Не работает
+                it.setObject(1, Type.Price)
+                it.setObject(2, Type.DateOfPurchanse)
+                it.setObject(3, Type.Used)
+                it.setObject(4, Type.TicketTypeName)
+                it.setObject(5, Type.EventName)
                 it.executeUpdate()
             }
             State = true
+        /*
         }
         catch (ex: Exception)
         {
             State = false
         }
+         */
     }
     fun RemoveSectors(Type: Data_types.Companion.Sector) {
         val connection = database.establishPostgreSQLConnection(login, pass)
@@ -101,13 +116,11 @@ class Ticket_worker {
                 it.executeUpdate()
             }
             State = true
-            this.getSectors()
+            this.getTickets()
         }
         catch (ex: Exception)
         {
             State = false
         }
     }
-
-     */
 }

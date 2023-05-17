@@ -53,7 +53,7 @@ class Crew_data {
         }
         Crew.addAll(cr)
     }
-    fun AddCrew(Type: Data_types.Companion.CrewAdd) //TODO: Написать добавление, ограничение на уникальность
+    fun AddCrew(Type: Data_types.Companion.CrewAdd)
     {
         try {
             val connection = database.establishPostgreSQLConnection(login, pass)

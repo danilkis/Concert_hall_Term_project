@@ -51,7 +51,7 @@ class EventCrew_data {
         }
         EventCrew.addAll(evcr)
     }
-    fun AddEventCrew(Type: Data_types.Companion.EventCrewAdd) //TODO: Написать добавление, ограничение на уникальность
+    fun AddEventCrew(Type: Data_types.Companion.EventCrewAdd)
     {
         try {
             val connection = database.establishPostgreSQLConnection(login, pass)
@@ -76,7 +76,7 @@ class EventCrew_data {
             State = false
         }
     }
-    fun RemoveEventCrew(Type: Data_types.Companion.EventCrewAdd)//TODO: Написать удаление
+    fun RemoveEventCrew(Type: Data_types.Companion.EventCrewAdd)
     {
         val connection = database.establishPostgreSQLConnection(login, pass)
         val query = """
