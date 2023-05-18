@@ -18,6 +18,8 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import java.sql.Timestamp
@@ -104,16 +106,26 @@ fun TicketCard(Ticket: Data_types.Companion.Ticket) {
     }
 }
 fun stringToTimestamp(dateString: String): Timestamp { //TODO: Unparcable date fix
-    val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-    val parsedDate = dateFormat.parse(dateString)
-    val timestamp = Timestamp(parsedDate.time)
-    return timestamp
+    try {
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+        val parsedDate = dateFormat.parse(dateString)
+        val timestamp = Timestamp(parsedDate.time)
+        return timestamp
+    }
+    catch (ex: Exception)
+    {
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+        val parsedDate = dateFormat.parse("0000-00-00 00:00:00")
+        val timestamp = Timestamp(parsedDate.time)
+        return timestamp
+    }
 }
 @Composable
 fun AddTicket() {
     val Price = remember { mutableStateOf("") }
     val Date = remember { mutableStateOf("") }
     val Used = remember { mutableStateOf("") }
+    var checked by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { mutableStateOf(SnackbarHostState()) }
     androidx.compose.material.SnackbarHost(snackbarHostState.value)
@@ -132,12 +144,17 @@ fun AddTicket() {
             modifier = Modifier.weight(1f)
         )
         Spacer(modifier = Modifier.padding(8.dp))
-        OutlinedTextField(  //TODO: Сделать switch
-            value = Used.value,
-            onValueChange = { Used.value = it },
-            label = { Text("SWITCH") },
-            modifier = Modifier.weight(1f)
-        )
+        Column {
+            Text(
+                text = "Использование",
+                style = MaterialTheme.typography.body1
+            )
+            Spacer(modifier = Modifier.padding(2.dp))
+            Switch(
+            modifier = Modifier.semantics { contentDescription = "Использован" },
+            checked = checked,
+            onCheckedChange = { checked = it }) }
+
         Spacer(modifier = Modifier.padding(8.dp))
         var expanded by remember { mutableStateOf(false) }
         val suggestions = Ticket_worker.Tickets.distinctBy { it.TicketTypeName }
@@ -211,7 +228,7 @@ fun AddTicket() {
                 Data_types.Companion.Ticket(
                     Price.value.toInt(),
                     stringToTimestamp(Date.value),
-                    Used.value.toBoolean(),
+                    checked,
                     selectedText,
                     selectedText1,
                     ""

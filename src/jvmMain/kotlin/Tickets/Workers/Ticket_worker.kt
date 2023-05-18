@@ -84,9 +84,9 @@ class Ticket_worker {
 
          */
             return connection.prepareStatement(query).use {//TODO: Не работает
-                it.setObject(1, Type.Price)
-                it.setObject(2, Type.DateOfPurchanse)
-                it.setObject(3, Type.Used)
+                it.setInt(1, Type.Price)
+                it.setTimestamp(2, Type.DateOfPurchanse)
+                it.setBoolean(3, Type.Used)
                 it.setObject(4, Type.TicketTypeName)
                 it.setObject(5, Type.EventName)
                 it.executeUpdate()

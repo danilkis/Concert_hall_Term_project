@@ -2,6 +2,7 @@ package Tickets
 
 import Crew.Elements.*
 import Manager.Elements.EventCrewList
+import Manager.Elements.EventList
 import Navigation.NavController
 import Tickets.Elements.AddAttendee
 import Tickets.Elements.AddTicket
@@ -10,6 +11,8 @@ import Tickets.Elements.TicketList
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 
@@ -33,12 +36,29 @@ fun AttendeesScreen(navController: NavController) //Экран с сектора
     }
 }
 @Composable
-fun EventEquipmentScreen(navController: NavController) //Экран с оборудованием на событиях
+fun StageMiniInfo(navController: NavController) //Экран с сценами
 {
-
-}
-@Composable
-fun StageInfoScreen(navController: NavController) //Экран с сценами
-{
-
+    Row(modifier = Modifier.fillMaxWidth()) {
+        Column (Modifier.weight(1f)){
+            Text(
+                text = "События",
+                style = MaterialTheme.typography.h5
+            )
+            EventList()
+        }
+        Column (Modifier.weight(1f)){
+            Text(
+                text = "Сектора-сцены",
+                style = MaterialTheme.typography.h5
+            )
+            SectorStagesList()
+        }
+        Column (Modifier.weight(0.7f)){
+            Text(
+                text = "Сцены",
+                style = MaterialTheme.typography.h5
+            )
+            StagesList()
+        }
+    }
 }

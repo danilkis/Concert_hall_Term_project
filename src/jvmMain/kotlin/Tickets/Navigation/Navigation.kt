@@ -8,6 +8,7 @@ import Navigation.NavigationHost
 import Navigation.Screen
 import Navigation.composable
 import Tickets.AttendeesScreen
+import Tickets.StageMiniInfo
 import Tickets.TicketScreen
 import androidx.compose.runtime.Composable
 
@@ -25,7 +26,7 @@ fun CustomNavigationHostTickets(
         }
 
         composable(Tickets.Navigation.Screen.StagesScreen.name) {
-            StageInfoScreen(navController)
+            StageMiniInfo(navController)
         }
     }.build()
 }
