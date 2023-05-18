@@ -14,7 +14,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.SnackbarHostState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
-import androidx.compose.material.icons.filled.ArrowForward
+import androidx.compose.material.icons.filled.ArrowDropUp
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.*
 import androidx.compose.material3.Button
@@ -114,7 +114,7 @@ fun AddEventCrew() {
         var selectedText1 by remember { mutableStateOf("") }
 
         val icon1 = if (expanded1)
-            Icons.Filled.ArrowForward //it requires androidx.compose.material:material-icons-extended
+            Icons.Filled.ArrowDropUp //it requires androidx.compose.material:material-icons-extended
         else
             Icons.Filled.ArrowDropDown
         OutlinedTextField(

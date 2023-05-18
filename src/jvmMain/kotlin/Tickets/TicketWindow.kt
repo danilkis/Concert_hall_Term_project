@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import com.example.compose.ReplyTheme
 
 @Composable
-fun TicketWindow() //navController: NavController
+fun TicketWindow(navController: NavController)
 {
     val screens = Tickets.Navigation.Screen.values().toList()
     val navController by rememberNavController(Tickets.Navigation.Screen.TicketScreen.name)

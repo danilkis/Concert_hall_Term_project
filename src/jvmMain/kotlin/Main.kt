@@ -9,7 +9,8 @@ import com.example.compose.ReplyTheme
 fun App() {
     ReplyTheme(false)
     {
-        TicketWindow()
+        AuthScreen()
+        //TicketWindow()
     }
     }
 fun main() = application {

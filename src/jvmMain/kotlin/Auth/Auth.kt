@@ -70,6 +70,10 @@ fun AuthScreen() {
                     {
                         navController.navigate(Navigation.Screen.ManagerScreen.name)
                     }
+                    else if (Login.value == "tickets_worker")
+                    {
+                        navController.navigate(Navigation.Screen.TicketScreen.name)
+                    }
                 },
                 modifier = Modifier.padding(top = 8.dp).alpha(if (isVisible.value) 1f else 0f)
             ) {

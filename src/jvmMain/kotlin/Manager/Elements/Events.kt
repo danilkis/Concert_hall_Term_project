@@ -59,7 +59,7 @@ fun EventCard(Event: Data_types.Companion.Events) {
                     text = Event.EventName,
                     style = MaterialTheme.typography.h5
                 )
-                Row() //TODO: Пофиксить верстку
+                Row()
                 {
                     AssistChip(
                         modifier = Modifier.padding(4.dp),
@@ -142,7 +142,7 @@ fun AddEvent() {
         var selectedText1 by remember { mutableStateOf("") }
 
         val icon1 = if (expanded1)
-            Icons.Filled.ArrowForward //it requires androidx.compose.material:material-icons-extended
+            Icons.Filled.ArrowDropUp //it requires androidx.compose.material:material-icons-extended
         else
             Icons.Filled.ArrowDropDown
         OutlinedTextField(
@@ -174,7 +174,7 @@ fun AddEvent() {
         var selectedText2 by remember { mutableStateOf("") }
 
         val icon2 = if (expanded2)
-            Icons.Filled.ArrowForward //it requires androidx.compose.material:material-icons-extended
+            Icons.Filled.ArrowDropUp //it requires androidx.compose.material:material-icons-extended
         else
             Icons.Filled.ArrowDropDown
         OutlinedTextField(

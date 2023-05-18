@@ -2,34 +2,31 @@ package Manager.Navigation
 
 import androidx.compose.material.Icon
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Build
-import androidx.compose.material.icons.filled.Create
-import androidx.compose.material.icons.filled.List
-import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.material.icons.filled.*
 
 import androidx.compose.ui.graphics.vector.ImageVector
 
 /**
  * Screens
  */
-enum class Screen( //TODO: Иконки
+enum class Screen(
     val label: String,
     val icon: ImageVector
 ) {
     ArtistScreen(
         label = "Исполнители",
-        icon = Icons.Filled.List
+        icon = Icons.Default.Mic
     ),
     EventScreen(
         label = "События",
-        icon = Icons.Filled.LocationOn
+        icon = Icons.Default.Event
     ),
     CrewScreen(
         label = "Рабочие",
-        icon = Icons.Filled.Create
+        icon = Icons.Default.Person
     ),
     PlanningScreen(
         label = "Планирование",
-        icon = Icons.Filled.Build
+        icon = Icons.Default.Stadium
     )
 }

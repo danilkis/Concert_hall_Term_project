@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
-import androidx.compose.material.icons.filled.ArrowForward
+import androidx.compose.material.icons.filled.ArrowDropUp
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
@@ -203,7 +203,7 @@ fun AddEquipment() {
         var selectedText1 by remember { mutableStateOf("") }
 
         val icon1 = if (expanded1)
-            Icons.Filled.ArrowForward //it requires androidx.compose.material:material-icons-extended
+            Icons.Filled.ArrowDropUp //it requires androidx.compose.material:material-icons-extended
         else
             Icons.Filled.ArrowDropDown
         OutlinedTextField(
@@ -242,7 +242,7 @@ fun AddEquipment() {
         var selectedText by remember { mutableStateOf("") }
 
         val icon = if (expanded)
-            Icons.Filled.ArrowForward //it requires androidx.compose.material:material-icons-extended
+            Icons.Filled.ArrowDropUp //it requires androidx.compose.material:material-icons-extended
         else
             Icons.Filled.ArrowDropDown
         OutlinedTextField(

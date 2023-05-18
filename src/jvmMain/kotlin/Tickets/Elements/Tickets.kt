@@ -80,10 +80,10 @@ fun TicketCard(Ticket: Data_types.Companion.Ticket) {
                 AssistChip(
                     modifier = Modifier.padding(4.dp),
                     onClick = { /* Do something! */ },
-                    label = { Text(Ticket.Price.toString()) }, //TODO: Иконка Money
+                    label = { Text(Ticket.Price.toString()) },
                     leadingIcon = {
                         Icon(
-                            Icons.Filled.DateRange,
+                            Icons.Filled.CurrencyRuble,
                             contentDescription = "Localized description",
                             Modifier.size(AssistChipDefaults.IconSize)
                         )
@@ -92,10 +92,10 @@ fun TicketCard(Ticket: Data_types.Companion.Ticket) {
                 AssistChip(
                     modifier = Modifier.padding(4.dp),
                     onClick = { /* Do something! */ },
-                    label = { Text(Ticket.TicketTypeName) }, //TODO: Иконка
+                    label = { Text(Ticket.TicketTypeName) },
                     leadingIcon = {
                         Icon(
-                            Icons.Filled.DateRange,
+                            Icons.Filled.TypeSpecimen,
                             contentDescription = "Localized description",
                             Modifier.size(AssistChipDefaults.IconSize)
                         )
@@ -161,7 +161,7 @@ fun AddTicket() {
         var selectedText by remember { mutableStateOf("") }
 
         val icon = if (expanded)
-            Icons.Filled.ArrowForward //it requires androidx.compose.material:material-icons-extended
+            Icons.Filled.ArrowDropUp //it requires androidx.compose.material:material-icons-extended
         else
             Icons.Filled.ArrowDropDown
         Spacer(modifier = Modifier.padding(8.dp))
@@ -195,7 +195,7 @@ fun AddTicket() {
         var selectedText1 by remember { mutableStateOf("") }
 
         val icon1 = if (expanded1)
-            Icons.Filled.ArrowForward //it requires androidx.compose.material:material-icons-extended
+            Icons.Filled.ArrowDropUp //it requires androidx.compose.material:material-icons-extended
         else
             Icons.Filled.ArrowDropDown
         OutlinedTextField(
