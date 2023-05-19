@@ -25,5 +25,7 @@ class Data_types {
         data class Ticket(val ID: Int, val Price: Int, val DateOfPurchanse: Timestamp, val Used: Boolean, val EventName: String, val TicketTypeName: String, val SectorName: String)
         data class Attendee(val Name: String, val Surname: String, val TicketId: Int, val AttendeeId: Int)
 
+        data class TicketTypes(val Name: String, val SectorId: Int, val TicketTypeId: Int)
+
     }
 }

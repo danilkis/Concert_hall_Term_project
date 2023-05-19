@@ -4,6 +4,7 @@ import Crew.Workers.Equipment_data
 import Crew.Workers.Sector_data
 import Crew.Workers.Stage_data
 import Manager.Workers.Event_data
+import Tickets.Workers.TicketTypes_worker
 import Tickets.Workers.Ticket_worker
 import Workers.Data_types
 import androidx.compose.foundation.clickable
@@ -125,8 +126,10 @@ fun stringToTimestamp(dateString: String): Timestamp { //TODO: Unparcable date f
 @Composable
 fun AddTicket() { //TODO: Сделать панель с типами
     var Data = Event_data()
+    var Data1 = TicketTypes_worker()
     LaunchedEffect(null) {
         Data.getEvents()
+        Data1.getTT()
     }
     val ID = remember { mutableStateOf("") }
     val Price = remember { mutableStateOf("") }
@@ -171,7 +174,7 @@ fun AddTicket() { //TODO: Сделать панель с типами
 
         Spacer(modifier = Modifier.padding(8.dp))
         var expanded by remember { mutableStateOf(false) }
-        val suggestions = Ticket_worker.Tickets.distinctBy { it.TicketTypeName }
+        val suggestions = TicketTypes_worker.TicketTypes
         var selectedText by remember { mutableStateOf("") }
 
         val icon = if (expanded)
@@ -197,9 +200,9 @@ fun AddTicket() { //TODO: Сделать панель с типами
         {
             suggestions.forEach { label ->
                 DropdownMenuItem(onClick = {
-                    selectedText = label.TicketTypeName
+                    selectedText = label.Name
                 }) {
-                    Text(text = label.TicketTypeName)
+                    Text(text = label.Name)
                 }
             }
         }

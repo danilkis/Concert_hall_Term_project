@@ -4,10 +4,7 @@ import Crew.Elements.*
 import Manager.Elements.EventCrewList
 import Manager.Elements.EventList
 import Navigation.NavController
-import Tickets.Elements.AddAttendee
-import Tickets.Elements.AddTicket
-import Tickets.Elements.AttendeeList
-import Tickets.Elements.TicketList
+import Tickets.Elements.*
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -20,10 +17,12 @@ import androidx.compose.ui.Modifier
 fun TicketScreen(navController: NavController) //Экран с оборудованием
 {
     Row(modifier = Modifier.fillMaxWidth()) {
-        Column {
+        Column (Modifier.weight(1f)){
             AddTicket()
             TicketList()  }
-
+        Column (Modifier.weight(0.65f)){
+            AddTTControl()
+            TicketTypesList()  }
     }
 }
 @Composable

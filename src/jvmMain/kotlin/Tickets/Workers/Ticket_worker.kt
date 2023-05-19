@@ -70,7 +70,7 @@ class Ticket_worker {
     }
     fun AddTicket(Type: Data_types.Companion.Ticket)
     {
-        val connection = database.establishPostgreSQLConnection(login, pass)
+        val connection = database.establishPostgreSQLConnection(login, pass) //TODO: ON CONFLICT DO UPDATE
         val query = """
         |INSERT INTO "Hall"."Tickets"
         |("TicketId","Price", "DateOfPurchanse", "Used", "TicketType", "Event")
