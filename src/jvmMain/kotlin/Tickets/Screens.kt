@@ -36,7 +36,7 @@ fun AttendeesScreen(navController: NavController) //Экран с сектора
     }
 }
 @Composable
-fun StageMiniInfo(navController: NavController) //Экран с сценами
+fun StageMiniInfo(navController: NavController) //TODO: Переписать без использования сторониих таблиц
 {
     Row(modifier = Modifier.fillMaxWidth()) {
         Column (Modifier.weight(1f)){

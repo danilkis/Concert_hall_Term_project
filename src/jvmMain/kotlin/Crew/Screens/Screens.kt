@@ -49,7 +49,7 @@ fun EventEquipmentScreen(navController: NavController) //Экран с обор�
     }
 }
 @Composable
-fun StageInfoScreen(navController: NavController) //Экран с сценами
+fun StageInfoScreen(navController: NavController) //Экран с сценами //TODO: Посмотреть что с обновлением
 {
     Row(modifier = Modifier.fillMaxWidth()) {
         Column(Modifier.weight(1f)) {

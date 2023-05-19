@@ -29,6 +29,7 @@ class Ticket_worker {
         val connection = database.establishPostgreSQLConnection(login, pass)
         val query = """
         |SELECT
+        |   T."TicketId",
         |   T."Price",
         |   T."DateOfPurchanse",
         |   T."Used",
@@ -39,7 +40,8 @@ class Ticket_worker {
         |   "Hall"."Tickets" AS T
         |JOIN "Hall"."Ticket_types" AS TT ON T."TicketType" = TT."TicketTypeId"
         |JOIN "Hall"."Sectors" AS SS ON TT."Sector" = SS."SectorId"
-        |JOIN "Hall"."Events" AS EV ON EV."EventId" = T."Event";  
+        |JOIN "Hall"."Events" AS EV ON EV."EventId" = T."Event"
+        |ORDER BY T."TicketId" DESC;
         |""".trimMargin()
         val query1 = connection.prepareStatement(query)
 
@@ -52,6 +54,7 @@ class Ticket_worker {
         while(result.next()){
 
             // getting the value of the id column
+            val ID = result.getInt("TicketId")
             val Price = result.getInt("Price")
 
             // getting the value of the name column
@@ -61,7 +64,7 @@ class Ticket_worker {
             val EventName = result.getString("EventName")
             val TicketTypeName = result.getString("TicketTypeName")
             val SectorName = result.getString("Name")
-            tick.add(Data_types.Companion.Ticket(Price, DateOfPurchanse, Used, EventName, TicketTypeName,SectorName))
+            tick.add(Data_types.Companion.Ticket(ID, Price, DateOfPurchanse, Used, EventName, TicketTypeName,SectorName))
         }
         Tickets.addAll(tick)
     }
@@ -69,50 +72,42 @@ class Ticket_worker {
     {
         val connection = database.establishPostgreSQLConnection(login, pass)
         val query = """
-        |INSERT INTO "Hall"."Tickets" ("Price", "DateOfPurchanse", "Used", "TicketType", "Event")
-        |SELECT ?, ?, ?, tt."TicketTypeId", e."EventId"
+        |INSERT INTO "Hall"."Tickets"
+        |("TicketId","Price", "DateOfPurchanse", "Used", "TicketType", "Event")
+        |SELECT ?, ?, ?, replace(?, '"', '')::boolean, tt."TicketTypeId", e."EventId"
         |FROM (
-        |   SELECT "TicketTypeId"
-        |   FROM "Hall"."Ticket_types"
-        |   WHERE "Name" = ?
-        | ) AS tt, "Hall"."Events" e
+        |SELECT "TicketTypeId"
+        |FROM "Hall"."Ticket_types"
+        |WHERE "Name" = ?
+        |) AS tt, "Hall"."Events" e
         |WHERE e."EventName" = ?;
         |""".trimMargin()
-        /*
         try
         {
-
-         */
-            return connection.prepareStatement(query).use {//TODO: Не работает
-                it.setInt(1, Type.Price)
-                it.setTimestamp(2, Type.DateOfPurchanse)
-                it.setBoolean(3, Type.Used)
-                it.setObject(4, Type.TicketTypeName)
-                it.setObject(5, Type.EventName)
-                it.executeUpdate()
+            return connection.prepareStatement(query).use { statement ->
+                statement.setObject(1, Type.ID)
+                statement.setObject(2, Type.Price)                // Set value for index 1
+                statement.setTimestamp(3, Type.DateOfPurchanse) // Set value for index 2
+                statement.setString(4, Type.Used.toString())   // Set value for index 3
+                statement.setObject(5, Type.EventName)    // Set value for index 4
+                statement.setObject(6, Type.TicketTypeName)         // Set value for index 5
+                statement.executeUpdate()
             }
             State = true
-        /*
         }
         catch (ex: Exception)
         {
             State = false
         }
-         */
     }
-    fun RemoveSectors(Type: Data_types.Companion.Sector) {
+    fun RemoveTickets(Type: Data_types.Companion.Ticket) {
         val connection = database.establishPostgreSQLConnection(login, pass)
         val query = """
-        |DELETE FROM "Hall"."Sectors"
-        |WHERE "SectorId" = ? AND "SeatsTotal" = ? AND "Seats_start" = ? AND "Seats_end" = ? AND "Name" = ?
+        |DELETE FROM "Hall"."Tickets" WHERE "TicketId" = ?;
         |""".trimMargin()
         try {
             return connection.prepareStatement(query).use {
-                it.setObject(1, Type.id)
-                it.setObject(2, Type.SeatsTotal)
-                it.setObject(3, Type.SeatsStart)
-                it.setObject(4, Type.SeatsEnd)
-                it.setObject(5, Type.Name)
+                it.setObject(1, Type.ID)
                 it.executeUpdate()
             }
             State = true

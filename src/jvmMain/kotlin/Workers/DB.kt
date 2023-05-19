@@ -5,8 +5,8 @@ import java.sql.DriverManager
 class DB {
     companion object
     {
-        var user_glob: String = "postgres";
-        var password_glob: String = "hassPASS";
+        var user_glob: String = "";
+        var password_glob: String = "";
     }
     fun establishPostgreSQLConnection(user: String, pass: String): Connection {
         val jdbcUrl = "jdbc:postgresql://pavlovskhomev3.duckdns.org:5432/Concert_hall"

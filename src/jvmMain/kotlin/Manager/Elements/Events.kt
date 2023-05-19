@@ -1,5 +1,7 @@
 package Manager.Elements
 
+import Crew.Workers.Stage_data
+import Manager.Workers.Artist_data
 import Manager.Workers.Crew_data
 import Manager.Workers.Event_data
 import Workers.Data_types
@@ -109,6 +111,10 @@ fun stringToTimestamp(dateString: String): Timestamp {
 }
 @Composable
 fun AddEvent() {
+    var Data = Stage_data()
+    LaunchedEffect(null) {
+        Data.getStages()
+    }
     val Event_name = remember { mutableStateOf("") }
     val Start = remember { mutableStateOf("") }
     val End = remember { mutableStateOf("") }
@@ -138,7 +144,7 @@ fun AddEvent() {
         )
         Spacer(modifier = Modifier.padding(8.dp))
         var expanded1 by remember { mutableStateOf(false) }
-        val suggestions1 = Event_data.Event.distinctBy { it.Stage }
+        val suggestions1 = Stage_data.Stages
         var selectedText1 by remember { mutableStateOf("") }
 
         val icon1 = if (expanded1)
@@ -162,15 +168,15 @@ fun AddEvent() {
         {
             suggestions1.forEach { label ->
                 DropdownMenuItem(onClick = {
-                    selectedText1 = label.Stage
+                    selectedText1 = label.Name
                 }) {
-                    Text(text = label.Stage)
+                    Text(text = label.Name)
                 }
             }
         }
         Spacer(modifier = Modifier.padding(8.dp))
         var expanded2 by remember { mutableStateOf(false) }
-        val suggestions2 = Event_data.Event.distinctBy { it.ArtistName }
+        val suggestions2 = Artist_data.Artists
         var selectedText2 by remember { mutableStateOf("") }
 
         val icon2 = if (expanded2)
@@ -194,9 +200,9 @@ fun AddEvent() {
         {
             suggestions2.forEach { label ->
                 DropdownMenuItem(onClick = {
-                    selectedText2 = label.ArtistName
+                    selectedText2 = label.Name
                 }) {
-                    Text(text = label.ArtistName)
+                    Text(text = label.Name)
                 }
             }
         }

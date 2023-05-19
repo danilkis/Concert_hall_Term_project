@@ -15,7 +15,7 @@ class EventCrew_data {
     }
 
 
-    fun getEventCrew() {
+    fun getEventCrew() { //TODO: Обновление листа лагает
         EventCrew.clear()
         val connection = database.establishPostgreSQLConnection(login, pass)
         val query = """

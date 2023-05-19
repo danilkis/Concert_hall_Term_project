@@ -54,7 +54,7 @@ class Event_data {
         }
         Event.addAll(ev)
     }
-    fun AddEvent(Type: Data_types.Companion.Events)
+    fun AddEvent(Type: Data_types.Companion.Events) //TODO: Тестирование
     {
         try
         {

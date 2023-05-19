@@ -2,6 +2,8 @@ package Tickets.Elements
 
 import Crew.Workers.Equipment_data
 import Crew.Workers.Sector_data
+import Crew.Workers.Stage_data
+import Manager.Workers.Event_data
 import Tickets.Workers.Ticket_worker
 import Workers.Data_types
 import androidx.compose.foundation.clickable
@@ -49,7 +51,7 @@ fun TicketCard(Ticket: Data_types.Companion.Ticket) {
     ) {
         Column (modifier = Modifier.padding(8.dp)) {
             Text(
-                text = Ticket.EventName,
+                text = Ticket.EventName + " ID билета: " +Ticket.ID.toString(),
                 style = MaterialTheme.typography.h5
             )
             Row {
@@ -121,7 +123,12 @@ fun stringToTimestamp(dateString: String): Timestamp { //TODO: Unparcable date f
     }
 }
 @Composable
-fun AddTicket() {
+fun AddTicket() { //TODO: Сделать панель с типами
+    var Data = Event_data()
+    LaunchedEffect(null) {
+        Data.getEvents()
+    }
+    val ID = remember { mutableStateOf("") }
     val Price = remember { mutableStateOf("") }
     val Date = remember { mutableStateOf("") }
     val Used = remember { mutableStateOf("") }
@@ -130,6 +137,13 @@ fun AddTicket() {
     val snackbarHostState = remember { mutableStateOf(SnackbarHostState()) }
     androidx.compose.material.SnackbarHost(snackbarHostState.value)
     Row(modifier = Modifier.padding(16.dp)) {
+        OutlinedTextField(
+            value = ID.value,
+            onValueChange = { ID.value = it },
+            label = { Text("ID") },
+            modifier = Modifier.weight(1f)
+        )
+        Spacer(modifier = Modifier.padding(8.dp))
         OutlinedTextField(
             value = Price.value,
             onValueChange = { Price.value = it },
@@ -191,7 +205,7 @@ fun AddTicket() {
         }
         Spacer(modifier = Modifier.padding(8.dp))
         var expanded1 by remember { mutableStateOf(false) }
-        val suggestions1 = Ticket_worker.Tickets.distinctBy { it.EventName }
+        val suggestions1 = Event_data.Event
         var selectedText1 by remember { mutableStateOf("") }
 
         val icon1 = if (expanded1)
@@ -226,6 +240,7 @@ fun AddTicket() {
         Button(
             onClick = {val Tickets = Ticket_worker(); Tickets.AddTicket(
                 Data_types.Companion.Ticket(
+                    ID.value.toInt(),
                     Price.value.toInt(),
                     stringToTimestamp(Date.value),
                     checked,
@@ -233,7 +248,7 @@ fun AddTicket() {
                     selectedText1,
                     ""
                 )
-            ); Sector_data().getSectors();
+            ); Ticket_worker().getTickets();
                 if(!Tickets.State)
                 {
                     scope.launch {
@@ -250,20 +265,21 @@ fun AddTicket() {
         ) {
             Text("Добавить")
         }
-        /*
         Spacer(modifier = Modifier.padding(8.dp))
         Button(
             onClick = {
-                val Sector = Sector_data(); Sector.RemoveSectors(
-                Data_types.Companion.Sector(
+                val Tickets = Ticket_worker(); Tickets.RemoveTickets(
+                Data_types.Companion.Ticket(
                     ID.value.toInt(),
-                    SeatsTotal.value.toInt(),
-                    SeatsStart.value.toInt(),
-                    SeatsEnd.value.toInt(),
-                    Name.value
+                    Price.value.toInt(),
+                    stringToTimestamp(Date.value),
+                    checked,
+                    selectedText,
+                    selectedText1,
+                    ""
                 )
             ); Sector_data().getSectors();
-                if(!Sector.State)
+                if(!Tickets.State)
                 {
                     scope.launch {
                         snackbarHostState.value.showSnackbar("Удаллено")
@@ -280,7 +296,5 @@ fun AddTicket() {
         ) {
             Text("Удалить")
         }
-
-         */
     }
 }

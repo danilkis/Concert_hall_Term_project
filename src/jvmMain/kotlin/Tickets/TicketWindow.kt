@@ -22,7 +22,7 @@ import com.example.compose.ReplyTheme
 fun TicketWindow(navController: NavController)
 {
     val screens = Tickets.Navigation.Screen.values().toList()
-    val navController by rememberNavController(Tickets.Navigation.Screen.TicketScreen.name)
+    val navController by rememberNavController(Tickets.Navigation.Screen.TicketScreen.name) //TODO: Сделать экран с добавлением ticketTypes
     val currentScreen by remember {
         navController.currentScreen
     }

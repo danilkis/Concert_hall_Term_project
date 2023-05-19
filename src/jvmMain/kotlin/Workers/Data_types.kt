@@ -22,7 +22,7 @@ class Data_types {
         data class CrewAdd(val Name: String,val Surname: String, val ThirdName: String, val Phone: String, val Email: String,val CrewType: String)
 
         data class Events(val EventName: String, val Start: Timestamp, val End: Timestamp, val Stage: String, val ArtistName: String)
-        data class Ticket(val Price: Int, val DateOfPurchanse: Timestamp, val Used: Boolean, val EventName: String, val TicketTypeName: String, val SectorName: String)
+        data class Ticket(val ID: Int, val Price: Int, val DateOfPurchanse: Timestamp, val Used: Boolean, val EventName: String, val TicketTypeName: String, val SectorName: String)
         data class Attendee(val Name: String, val Surname: String, val TicketId: Int, val AttendeeId: Int)
 
     }

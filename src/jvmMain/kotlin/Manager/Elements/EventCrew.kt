@@ -1,9 +1,11 @@
 package Manager.Elements
 
 import Crew.Workers.Equipment_data
+import Crew.Workers.Stage_data
 import Manager.Workers.Artist_data
 import Workers.Data_types
 import Manager.Workers.EventCrew_data
+import Manager.Workers.Event_data
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -87,10 +89,13 @@ fun EventCrewCard(Artist: Data_types.Companion.EventCrew) {
 
 @Composable
 fun AddEventCrew() {
+    var Data = Event_data()
+    LaunchedEffect(null) {
+        Data.getEvents()
+    }
     val Surname = remember { mutableStateOf("") }
     val Name = remember { mutableStateOf("") }
     val EventId = remember { mutableStateOf("") }
-
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { mutableStateOf(SnackbarHostState()) }
     androidx.compose.material.SnackbarHost(snackbarHostState.value)
@@ -110,7 +115,7 @@ fun AddEventCrew() {
         )
         Spacer(modifier = Modifier.padding(8.dp))
         var expanded1 by remember { mutableStateOf(false) }
-        val suggestions1 = EventCrew_data.EventCrew.distinctBy { it.EventName }
+        val suggestions1 = Event_data.Event
         var selectedText1 by remember { mutableStateOf("") }
 
         val icon1 = if (expanded1)

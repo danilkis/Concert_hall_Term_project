@@ -101,7 +101,7 @@ fun EventEquipmentCard(EventEquipment: Data_types.Companion.EventEquipment) {
     }
 }
 @Composable
-fun AddEventEquipment() {
+fun AddEventEquipment() { //TODO: Проверить что с добавлением
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { mutableStateOf(SnackbarHostState()) }
     LaunchedEffect(null) {
