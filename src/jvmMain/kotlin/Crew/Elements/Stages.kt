@@ -19,11 +19,11 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun StagesList() { //Лист с типами
-    var Data = Stage_data()
+    val Data = Stage_data()
     LaunchedEffect(null) {
         Data.getStages()
     }
-    var equipmentTypes = Stage_data.Stages
+    val equipmentTypes = Stage_data.Stages
     LazyColumn {
         items(equipmentTypes) { equipmentType ->
             StageCard(equipmentType)
@@ -94,8 +94,8 @@ fun AddStage() {
                     StageCapacity.value.toInt(),
                     StageName.value
                 )
-            );Stage_data().getStages();
-                if(!Stages.State)
+            );Stage_data().getStages()
+                if(Stages.State)
                 {
                     scope.launch {
                         snackbarHostState.value.showSnackbar("Добавленно")
@@ -121,8 +121,8 @@ fun AddStage() {
                     StageCapacity.value.toInt(),
                     StageName.value
                 )
-            );Stage_data().getStages();
-                if(!Stage.State)
+            );Stage_data().getStages()
+                if(Stage.State)
                 {
                     scope.launch {
                         snackbarHostState.value.showSnackbar("Удаленно")

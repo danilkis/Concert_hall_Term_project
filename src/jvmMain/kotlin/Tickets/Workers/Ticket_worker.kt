@@ -1,25 +1,15 @@
 package Tickets.Workers
 
-import Crew.Workers.Sector_data
 import Workers.DB
 import Workers.Data_types
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.SnackbarHostState
-import androidx.compose.material3.Button
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
 import androidx.compose.runtime.*
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.launch
+
 
 class Ticket_worker {
     var database = DB()
     var pass = DB.password_glob
     var login = DB.user_glob
-    var State = false
+    var State = true
     companion object
     {
         var Tickets = mutableStateListOf<Data_types.Companion.Ticket>()
@@ -70,6 +60,7 @@ class Ticket_worker {
     }
     fun AddTicket(Type: Data_types.Companion.Ticket)
     {
+        State = true
         val connection = database.establishPostgreSQLConnection(login, pass) //TODO: ON CONFLICT DO UPDATE
         val query = """
         |INSERT INTO "Hall"."Tickets"
@@ -93,7 +84,6 @@ class Ticket_worker {
                 statement.setObject(6, Type.TicketTypeName)         // Set value for index 5
                 statement.executeUpdate()
             }
-            State = true
         }
         catch (ex: Exception)
         {
@@ -101,6 +91,7 @@ class Ticket_worker {
         }
     }
     fun RemoveTickets(Type: Data_types.Companion.Ticket) {
+        State = true
         val connection = database.establishPostgreSQLConnection(login, pass)
         val query = """
         |DELETE FROM "Hall"."Tickets" WHERE "TicketId" = ?;
@@ -110,8 +101,6 @@ class Ticket_worker {
                 it.setObject(1, Type.ID)
                 it.executeUpdate()
             }
-            State = true
-            this.getTickets()
         }
         catch (ex: Exception)
         {

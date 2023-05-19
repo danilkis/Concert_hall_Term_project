@@ -1,7 +1,4 @@
 package Tickets
-import Crew.Navigation.CustomNavigationHost
-import Manager.Navigation.CustomNavigationHostManager
-import Manager.Navigation.Screen
 import Navigation.NavController
 import Navigation.rememberNavController
 import Tickets.Navigation.CustomNavigationHostTickets
@@ -22,7 +19,7 @@ import com.example.compose.ReplyTheme
 fun TicketWindow(navController: NavController)
 {
     val screens = Tickets.Navigation.Screen.values().toList()
-    val navController by rememberNavController(Tickets.Navigation.Screen.TicketScreen.name) //TODO: Сделать экран с добавлением ticketTypes
+    val navController by rememberNavController(Tickets.Navigation.Screen.TicketScreen.name)
     val currentScreen by remember {
         navController.currentScreen
     }
@@ -35,7 +32,7 @@ fun TicketWindow(navController: NavController)
             ) {
                 CustomNavigationHostTickets(navController = navController)
             }
-            NavigationBar(){
+            NavigationBar {
                 screens.forEach {
                     NavigationBarItem(
                         selected = currentScreen == it.name,

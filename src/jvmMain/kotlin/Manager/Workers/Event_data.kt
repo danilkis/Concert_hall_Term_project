@@ -8,7 +8,7 @@ class Event_data {
     var database = DB()
     var pass = DB.password_glob
     var login = DB.user_glob
-    var State = false
+    var State = true
     companion object{
         var Event = mutableStateListOf<Data_types.Companion.Events>()
     }
@@ -54,41 +54,42 @@ class Event_data {
         }
         Event.addAll(ev)
     }
-    fun AddEvent(Type: Data_types.Companion.Events) //TODO: Тестирование
+    fun AddEvent(Type: Data_types.Companion.Events)
     {
+        State = true
         try
         {
-        val connection = database.establishPostgreSQLConnection(login, pass)
-        val query = """
-        |WITH stage AS (
-        |SELECT "StageId"
-        |FROM "Hall"."Stages"
-        |WHERE "StageName" = ?
-        |)
-        |INSERT INTO "Hall"."Events" ("EventName", "Start", "End", "Stage")
-        |SELECT ?, ?, ?, stage."StageId"
-        |FROM stage; -- Include the CTE in the main query
-        |INSERT INTO "Hall"."EventArtists" ("ArtistId", "EventId")
-        |SELECT
-        |   a."ArtistId",
-        |   e."EventId"
-        |FROM
-        |"Hall"."Artists" a
-        |JOIN
-        |"Hall"."Events" e ON 1 = 1
-        |WHERE
-        |a."Name" = ?
-        |AND e."EventName" = ?;
-    """.trimMargin()
-        return connection.prepareStatement(query).use {
-            it.setString(1, Type.Stage)
-            it.setString(2, Type.EventName)
-            it.setTimestamp(3, Type.Start)
-            it.setTimestamp(4, Type.End)
-            it.setString(5, Type.ArtistName)
-            it.setString(6, Type.EventName)
-            it.executeUpdate()
-        }
+            val connection = database.establishPostgreSQLConnection(login, pass)
+            val query = """
+            |WITH stage AS (
+            |SELECT "StageId"
+            |FROM "Hall"."Stages"
+            |WHERE "StageName" = ?
+            |)
+            |INSERT INTO "Hall"."Events" ("EventName", "Start", "End", "Stage")
+            |SELECT ?, ?, ?, stage."StageId"
+            |FROM stage; -- Include the CTE in the main query
+            |INSERT INTO "Hall"."EventArtists" ("ArtistId", "EventId")
+            |SELECT
+            |   a."ArtistId",
+            |   e."EventId"
+            |FROM
+            |"Hall"."Artists" a
+            |JOIN
+            |"Hall"."Events" e ON 1 = 1
+            |WHERE
+            |a."Name" = ?
+            |AND e."EventName" = ?;
+        """.trimMargin()
+            return connection.prepareStatement(query).use {
+                it.setString(1, Type.Stage)
+                it.setString(2, Type.EventName)
+                it.setTimestamp(3, Type.Start)
+                it.setTimestamp(4, Type.End)
+                it.setString(5, Type.ArtistName)
+                it.setString(6, Type.EventName)
+                it.executeUpdate()
+            }
         }
         catch (ex: Exception)
         {
@@ -98,39 +99,38 @@ class Event_data {
     }
     fun RemoveEvent(Type: Data_types.Companion.Events)
     {
+        State = true
         try
         {
-            val connection = database.establishPostgreSQLConnection(login, pass)
-            val query = """
-        |DELETE FROM "Hall"."Events"
-        |WHERE "Hall"."Events"."EventId" IN (
-        |SELECT "Hall"."EventArtists"."EventId"
-        |FROM "Hall"."EventArtists"
-        |INNER JOIN "Hall"."Artists" ON "Hall"."EventArtists"."ArtistId" = "Hall"."Artists"."ArtistId"
-        |INNER JOIN "Hall"."Events" ON "Hall"."EventArtists"."EventId" = "Hall"."Events"."EventId"
-        |INNER JOIN "Hall"."Stages" ON "Hall"."Events"."Stage" = "Hall"."Stages"."StageId"
-        |WHERE "Hall"."Events"."EventName" = ?
-        |AND "Hall"."Events"."Start" = ?
-        |AND "Hall"."Events"."End" = ?
-        |AND "Hall"."Stages"."StageName" = ?
-        |AND "Hall"."Artists"."Name" = ?
-        |);
-        |""".trimMargin()
+                val connection = database.establishPostgreSQLConnection(login, pass)
+                val query = """
+            |DELETE FROM "Hall"."Events"
+            |WHERE "Hall"."Events"."EventId" IN (
+            |SELECT "Hall"."EventArtists"."EventId"
+            |FROM "Hall"."EventArtists"
+            |INNER JOIN "Hall"."Artists" ON "Hall"."EventArtists"."ArtistId" = "Hall"."Artists"."ArtistId"
+            |INNER JOIN "Hall"."Events" ON "Hall"."EventArtists"."EventId" = "Hall"."Events"."EventId"
+            |INNER JOIN "Hall"."Stages" ON "Hall"."Events"."Stage" = "Hall"."Stages"."StageId"
+            |WHERE "Hall"."Events"."EventName" = ?
+            |AND "Hall"."Events"."Start" = ?
+            |AND "Hall"."Events"."End" = ?
+            |AND "Hall"."Stages"."StageName" = ?
+            |AND "Hall"."Artists"."Name" = ?
+            |);
+            |""".trimMargin()
 
-            return connection.prepareStatement(query).use {
-                it.setString(1, Type.EventName)
-                it.setTimestamp(2, Type.Start)
-                it.setTimestamp(3, Type.End)
-                it.setString(4, Type.Stage)
-                it.setString(5, Type.ArtistName)
-                it.executeUpdate()
-            }
-            this.getEvents()
-            State = false
+                return connection.prepareStatement(query).use {
+                    it.setString(1, Type.EventName)
+                    it.setTimestamp(2, Type.Start)
+                    it.setTimestamp(3, Type.End)
+                    it.setString(4, Type.Stage)
+                    it.setString(5, Type.ArtistName)
+                    it.executeUpdate()
+                }
         }
         catch (ex: Exception)
         {
-            State = true
+            State = false
         }
     }
 }

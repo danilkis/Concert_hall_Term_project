@@ -1,6 +1,4 @@
 package Tickets.Elements
-
-import Crew.Workers.Equipment_data
 import Tickets.Workers.Attending_worker
 import Workers.Data_types
 import androidx.compose.foundation.layout.*
@@ -17,11 +15,11 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun AttendeeList() { //Лист с типами
-    var Data = Attending_worker()
+    val Data = Attending_worker()
     LaunchedEffect(null) {
         Data.getAttendees()
     }
-    var Atte = Attending_worker.People
+    val Atte = Attending_worker.People
     LazyColumn {
         items(Atte) { Atte ->
             TypeCard(Atte)
@@ -99,8 +97,8 @@ fun AddAttendee() {
                     TicketId.value.toInt(),
                     ID.value.toInt(),
                 )
-            );Attending_worker().getAttendees();
-                if(!Attend.State)
+            );Attending_worker().getAttendees()
+                if(Attend.State)
                 {
                     scope.launch {
                         snackbarHostState.value.showSnackbar("Добавленно")
@@ -127,8 +125,8 @@ fun AddAttendee() {
                     TicketId.value.toInt(),
                     ID.value.toInt(),
                 )
-            );Attending_worker().getAttendees();
-                if(!Attend.State)
+            );Attending_worker().getAttendees()
+                if(Attend.State)
                 {
                     scope.launch {
                         snackbarHostState.value.showSnackbar("Удаленно")

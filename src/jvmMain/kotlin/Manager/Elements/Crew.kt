@@ -1,11 +1,9 @@
 package Manager.Elements
 import Manager.Workers.Crew_data
 import Workers.Data_types
-import Manager.Workers.EventCrew_data
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.MaterialTheme
@@ -25,11 +23,11 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun CrewList() { //Лист с типами
-    var Data = Crew_data()
+    val Data = Crew_data()
     LaunchedEffect(null) {
         Data.getCrew()
     }
-    var Crew = Crew_data.Crew
+    val Crew = Crew_data.Crew
     LazyColumn(modifier = Modifier
         .fillMaxWidth()) {
         items(Crew) { Crew ->
@@ -110,7 +108,6 @@ fun AddCrew() {
     val ThirdName = remember { mutableStateOf("") }
     val Phone = remember { mutableStateOf("") }
     val Email = remember { mutableStateOf("") }
-    val Position = remember { mutableStateOf("") }
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { mutableStateOf(SnackbarHostState()) }
     SnackbarHost(snackbarHostState.value)
@@ -193,8 +190,8 @@ fun AddCrew() {
                     Email.value,
                     selectedText1
                 )
-            );Crew_data().getCrew();
-                if (!Cr.State) {
+            );Crew_data().getCrew()
+                if (Cr.State) {
                     scope.launch {
                         snackbarHostState.value.showSnackbar("Добавленно")
                     }
@@ -220,8 +217,8 @@ fun AddCrew() {
                     Email.value,
                     selectedText1
                 )
-            );Crew_data().getCrew();
-                if (!Cr.State) {
+            );Crew_data().getCrew()
+                if (Cr.State) {
                     scope.launch {
                         snackbarHostState.value.showSnackbar("Удаленно")
                     }

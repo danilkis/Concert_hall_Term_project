@@ -3,13 +3,12 @@ package Tickets.Workers
 import Workers.DB
 import Workers.Data_types
 import androidx.compose.runtime.mutableStateListOf
-import javax.naming.Name
 
 class Attending_worker {
     var database = DB()
     var pass = DB.password_glob
     var login = DB.user_glob
-    var State = false
+    var State = true
     companion object
     {
         var People = mutableStateListOf<Data_types.Companion.Attendee>()
@@ -45,6 +44,7 @@ class Attending_worker {
     }
     fun AddAttendee(Type: Data_types.Companion.Attendee)
     {
+        State = true
         val connection = database.establishPostgreSQLConnection(login, pass)
         val query = """
         |INSERT INTO "Hall"."Attending" ("Name", "Surname", "TicketId", "AttendeeId")
@@ -53,14 +53,13 @@ class Attending_worker {
         |""".trimMargin()
         try
         {
-        return connection.prepareStatement(query).use {
-            it.setObject(1, Type.Name)
-            it.setObject(2, Type.Surname)
-            it.setObject(3, Type.TicketId)
-            it.setObject(4, Type.AttendeeId)
-            it.executeUpdate()
-        }
-        State = true
+            return connection.prepareStatement(query).use {
+                it.setObject(1, Type.Name)
+                it.setObject(2, Type.Surname)
+                it.setObject(3, Type.TicketId)
+                it.setObject(4, Type.AttendeeId)
+                it.executeUpdate()
+            }
         }
         catch (ex: Exception)
         {
@@ -68,6 +67,7 @@ class Attending_worker {
         }
     }
     fun RemoveAttendee(Type: Data_types.Companion.Attendee) {
+        State = true
         val connection = database.establishPostgreSQLConnection(login, pass)
         val query = """
         |DELETE FROM "Hall"."Attending" WHERE "AttendeeId" = ?
@@ -77,8 +77,6 @@ class Attending_worker {
                 it.setObject(1, Type.AttendeeId)
                 it.executeUpdate()
             }
-            State = true
-            this.getAttendees()
         }
         catch (ex: Exception)
         {

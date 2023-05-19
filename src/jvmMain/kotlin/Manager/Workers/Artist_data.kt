@@ -9,7 +9,7 @@ class Artist_data {
     var database = DB()
     var pass = DB.password_glob
     var login = DB.user_glob
-    var State = false
+    var State = true
     companion object{
         var Artists = mutableStateListOf<Data_types.Companion.Artists>()
     }
@@ -43,6 +43,7 @@ class Artist_data {
     }
     fun AddArtist(Type: Data_types.Companion.Artists)
     {
+        State = true
         val connection = database.establishPostgreSQLConnection(login, pass)
         val query = """
         |INSERT INTO "Hall"."Artists"
@@ -64,8 +65,6 @@ class Artist_data {
                 it.setObject(5, Type.Manager_email)
                 it.executeUpdate()
             }
-            State = true
-            this.getArtists()
         }
         catch (ex: Exception)
         {
@@ -74,6 +73,7 @@ class Artist_data {
     }
     fun RemoveArtist(Type: Data_types.Companion.Artists)
     {
+        State = true
         val connection = database.establishPostgreSQLConnection(login, pass)
         val query = """
         |DELETE FROM "Hall"."Artists"
@@ -84,12 +84,10 @@ class Artist_data {
                 it.setObject(1, Type.id)
                 it.executeUpdate()
             }
-            this.getArtists()
-            State = false
         }
         catch (ex: Exception)
         {
-            State = true
+            State = false
         }
     }
 }

@@ -8,7 +8,7 @@ class SectorStages_data {
     var database = DB()
     var pass = DB.password_glob
     var login = DB.user_glob
-    var State = false
+    var State = true
     companion object
     {
         var StagesSectors = mutableStateListOf<Data_types.Companion.SectorStages>()
@@ -53,6 +53,7 @@ class SectorStages_data {
     }
     fun AddStageSector(Type: Data_types.Companion.SectorStages)
     {
+        State = true
         val connection = database.establishPostgreSQLConnection(login, pass)
         val query = """
         |INSERT INTO "Hall"."StageSectors"
@@ -68,8 +69,6 @@ class SectorStages_data {
                 it.setObject(2, Type.SectorId)
                 it.executeUpdate()
             }
-            State = true
-            this.getStagesSectors()
         }
         catch (ex: Exception)
         {
@@ -77,6 +76,7 @@ class SectorStages_data {
         }
     }
     fun RemoveSectorStage(Type: Data_types.Companion.SectorStages) {
+        State = true
         val connection = database.establishPostgreSQLConnection(login, pass)
         val query = """
         |DELETE FROM "Hall"."StageSectors"
@@ -89,8 +89,6 @@ class SectorStages_data {
                 it.setObject(2, Type.SectorId)
                 it.executeUpdate()
             }
-            this.getStagesSectors()
-            State = true
         }
         catch (ex: Exception)
         {

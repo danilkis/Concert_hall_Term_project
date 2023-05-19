@@ -35,7 +35,7 @@ class TicketTypes_worker {
             // getting the value of the name column
             val Sector = result.getInt("Sector")
 
-            val Name = result.getString("TicketId")
+            val Name = result.getString("Name")
 
             TT.add(Data_types.Companion.TicketTypes(Name, Sector, TTID))
         }

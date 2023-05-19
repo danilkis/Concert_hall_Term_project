@@ -24,11 +24,11 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun EventEquipmentList() { //Лист с карточками
-    var Data = EventEquipment_data()
+    val Data = EventEquipment_data()
     LaunchedEffect(null) {
         Data.getEventEquipment()
     }
-    var equipmentTypes = EventEquipment_data.EventEquipment
+    val equipmentTypes = EventEquipment_data.EventEquipment
     LazyColumn {
         items(equipmentTypes) { equipmentType ->
             EventEquipmentCard(equipmentType)
@@ -153,7 +153,7 @@ fun AddEventEquipment() { //TODO: Проверить что с добавлен�
         Spacer(modifier = Modifier.padding(8.dp))
         Button(
             onClick = {
-                var eveq_dt = EventEquipment_data(); eveq_dt.AddEventEquipment(
+                val eveq_dt = EventEquipment_data(); eveq_dt.AddEventEquipment(
                     Data_types.Companion.EventEquipment(
                         "",
                         "",
@@ -164,8 +164,8 @@ fun AddEventEquipment() { //TODO: Проверить что с добавлен�
                         0,
                         EquipmentId.value.toInt()
                     )
-                ); EventEquipment_data().getEventEquipment();
-                    if(!eveq_dt.State)
+                ); EventEquipment_data().getEventEquipment()
+                    if(eveq_dt.State)
                     {
                         scope.launch {
                             snackbarHostState.value.showSnackbar("Добавленно")
@@ -185,7 +185,7 @@ fun AddEventEquipment() { //TODO: Проверить что с добавлен�
         Spacer(modifier = Modifier.padding(8.dp))
         Button(
             onClick = {
-                var eveq_dt = EventEquipment_data(); eveq_dt.RemoveEventEquipment(
+                val eveq_dt = EventEquipment_data(); eveq_dt.RemoveEventEquipment(
                     Data_types.Companion.EventEquipment(
                         "",
                         "",
@@ -196,8 +196,8 @@ fun AddEventEquipment() { //TODO: Проверить что с добавлен�
                         0,
                         EquipmentId.value.toInt()
                     )
-                ); EventEquipment_data().getEventEquipment();
-                if(!eveq_dt.State)
+                ); EventEquipment_data().getEventEquipment()
+                if(eveq_dt.State)
                 {
                     scope.launch {
                         snackbarHostState.value.showSnackbar("Удаленно")

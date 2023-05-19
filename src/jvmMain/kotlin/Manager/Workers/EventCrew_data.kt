@@ -1,6 +1,4 @@
 package Manager.Workers
-
-import Crew.Workers.EventEquipment_data
 import Workers.DB
 import Workers.Data_types
 import androidx.compose.runtime.mutableStateListOf
@@ -9,7 +7,7 @@ class EventCrew_data {
     var database = DB()
     var pass = DB.password_glob
     var login = DB.user_glob
-    var State = false
+    var State = true
     companion object{
         var EventCrew = mutableStateListOf<Data_types.Companion.EventCrew>()
     }
@@ -68,8 +66,6 @@ class EventCrew_data {
                 it.setString(3, Type.EventName)
                 it.executeUpdate()
             }
-            State = true
-            this.getEventCrew()
         }
         catch (ex: Exception)
         {
@@ -78,6 +74,7 @@ class EventCrew_data {
     }
     fun RemoveEventCrew(Type: Data_types.Companion.EventCrewAdd)
     {
+        State = true
         val connection = database.establishPostgreSQLConnection(login, pass)
         val query = """
         |DELETE FROM "Hall"."EventCrew"
@@ -91,12 +88,10 @@ class EventCrew_data {
                 it.setString(3, Type.Surname)
                 it.executeUpdate()
             }
-            this.getEventCrew()
-            State = false
         }
         catch (ex: Exception)
         {
-            State = true
+            State = false
         }
     }
 }

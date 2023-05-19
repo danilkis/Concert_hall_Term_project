@@ -37,7 +37,7 @@ fun CrewWindow(navController: NavController)
             ) {
                 CustomNavigationHost(navController = navController)
             }
-            NavigationBar(){
+            NavigationBar {
                 screens.forEach {
                     NavigationBarItem(
                         selected = currentScreen == it.name,

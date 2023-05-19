@@ -8,7 +8,7 @@ class EventEquipment_data {
     var database = DB()
     var pass = DB.password_glob
     var login = DB.user_glob
-    var State = false
+    var State = true
     companion object
     {
         var EventEquipment = mutableStateListOf<Data_types.Companion.EventEquipment>()
@@ -67,6 +67,7 @@ class EventEquipment_data {
     }
     fun AddEventEquipment(Type: Data_types.Companion.EventEquipment)
     {
+        State = true
         val connection = database.establishPostgreSQLConnection(login, pass)
         val query = """
         |INSERT INTO "Hall"."Sectors"
@@ -83,8 +84,6 @@ class EventEquipment_data {
                 it.setObject(2, Type.EquipmentId)
                 it.executeUpdate()
             }
-            State = true
-            this.getEventEquipment()
         }
         catch (ex: Exception)
         {
@@ -92,6 +91,7 @@ class EventEquipment_data {
         }
     }
     fun RemoveEventEquipment(Type: Data_types.Companion.EventEquipment) {
+        State = true
         val connection = database.establishPostgreSQLConnection(login, pass)
         val query = """
         |DELETE FROM "Hall"."EventEquipment"
@@ -104,7 +104,6 @@ class EventEquipment_data {
                 it.setObject(2, Type.EquipmentId)
                 it.executeUpdate()
             }
-            State = true
         }
         catch (ex: Exception)
         {

@@ -9,7 +9,7 @@ class Equipment_data {
     var database = DB()
     var pass = DB.password_glob
     var login = DB.user_glob
-    var State = false
+    var State = true
     companion object{
         var Eq_types = mutableStateListOf<Data_types.Companion.Equipment_types>()
         var equipment = mutableStateListOf<Data_types.Companion.Equipment>()
@@ -76,6 +76,7 @@ class Equipment_data {
     }
     fun AddType(Type: Data_types.Companion.Equipment_types)
     {
+        State = true
         val connection = database.establishPostgreSQLConnection(login, pass)
         val query = """
         |INSERT INTO "Hall"."Equipment_types"
@@ -89,8 +90,6 @@ class Equipment_data {
                 it.setObject(2, Type.Subtype)
                 it.executeUpdate()
             }
-            State = true
-            this.getEquipmentTypes()
         }
         catch (ex: Exception)
         {
@@ -99,6 +98,7 @@ class Equipment_data {
     }
     fun RemoveType(Type: Data_types.Companion.Equipment_types)
     {
+        State = true
         val connection = database.establishPostgreSQLConnection(login, pass)
         val query = """
         |DELETE FROM "Hall"."Equipment_types"
@@ -111,8 +111,6 @@ class Equipment_data {
                 it.setObject(2, Type.Subtype)
                 it.executeUpdate()
             }
-            this.getEquipmentTypes()
-            State = true
         }
         catch (ex: Exception)
         {
@@ -120,6 +118,7 @@ class Equipment_data {
         }
     }
     fun AddEquipment(Type: Data_types.Companion.Equipment) {
+        State = true
         val connection = database.establishPostgreSQLConnection(login, pass)
         val query = """
         INSERT INTO "Hall"."Equipment" ("EquipmentId", "Manufacturer", "Stock", "EquipmentTypeId")
@@ -141,7 +140,6 @@ class Equipment_data {
                 it.setObject(4, Type.EquipmentTypeId)
                 it.executeUpdate()
             }
-            State = true
         }
         catch (ex: Exception)
         {
@@ -149,6 +147,7 @@ class Equipment_data {
         }
     }
     fun RemoveEquipment(Type: Data_types.Companion.Equipment) {
+        State = true
         val connection = database.establishPostgreSQLConnection(login, pass)
         val query = """
         |DELETE FROM "Hall"."Equipment"
@@ -165,7 +164,6 @@ class Equipment_data {
                 it.setObject(4, Type.EquipmentTypeId)
                 it.executeUpdate()
             }
-            State = true
         }
             catch (ex: Exception)
             {

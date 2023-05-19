@@ -1,8 +1,5 @@
 package Manager.Elements
 
-import Crew.Workers.Equipment_data
-import Crew.Workers.Stage_data
-import Manager.Workers.Artist_data
 import Workers.Data_types
 import Manager.Workers.EventCrew_data
 import Manager.Workers.Event_data
@@ -31,11 +28,11 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun EventCrewList() { //Лист с типами
-    var Data = EventCrew_data()
+    val Data = EventCrew_data()
     LaunchedEffect(null) {
         Data.getEventCrew()
     }
-    var EventCrew = EventCrew_data.EventCrew
+    val EventCrew = EventCrew_data.EventCrew
     LazyColumn(modifier = Modifier
         .fillMaxWidth()) {
         items(EventCrew) { Event ->
@@ -67,7 +64,7 @@ fun EventCrewCard(Artist: Data_types.Companion.EventCrew) {
                 .trim('{', '}')
                 .split(',')
                 .map { it.trim() }
-            LazyRow (){
+            LazyRow {
                 items(names) { item ->
                     AssistChip(
                         modifier = Modifier.padding(4.dp),
@@ -89,16 +86,15 @@ fun EventCrewCard(Artist: Data_types.Companion.EventCrew) {
 
 @Composable
 fun AddEventCrew() {
-    var Data = Event_data()
+    val Data = Event_data()
     LaunchedEffect(null) {
         Data.getEvents()
     }
     val Surname = remember { mutableStateOf("") }
     val Name = remember { mutableStateOf("") }
-    val EventId = remember { mutableStateOf("") }
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { mutableStateOf(SnackbarHostState()) }
-    androidx.compose.material.SnackbarHost(snackbarHostState.value)
+    SnackbarHost(snackbarHostState.value)
     Row(modifier = Modifier.padding(16.dp)) {
         OutlinedTextField(
             value = Surname.value,
@@ -119,7 +115,7 @@ fun AddEventCrew() {
         var selectedText1 by remember { mutableStateOf("") }
 
         val icon1 = if (expanded1)
-            Icons.Filled.ArrowDropUp //it requires androidx.compose.material:material-icons-extended
+            Icons.Filled.ArrowDropUp
         else
             Icons.Filled.ArrowDropDown
         OutlinedTextField(
@@ -154,8 +150,8 @@ fun AddEventCrew() {
                     Name.value,
                     Surname.value
                 )
-            );EventCrew_data().getEventCrew();
-                if(!EvCr.State)
+            );EventCrew_data().getEventCrew()
+                if(EvCr.State)
                 {
                     scope.launch {
                         snackbarHostState.value.showSnackbar("Добавленно")
@@ -181,8 +177,8 @@ fun AddEventCrew() {
                     Name.value,
                     Surname.value
                 )
-            );EventCrew_data().getEventCrew();
-                if (!EvCr.State) {
+            );EventCrew_data().getEventCrew()
+                if (EvCr.State) {
                     scope.launch {
                         snackbarHostState.value.showSnackbar("Удаленно")
                     }

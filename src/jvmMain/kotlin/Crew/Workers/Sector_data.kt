@@ -8,7 +8,7 @@ class Sector_data {
     var database = DB()
     var pass = DB.password_glob
     var login = DB.user_glob
-    var State = false
+    var State = true
     companion object
     {
         var Sector = mutableStateListOf<Data_types.Companion.Sector>()
@@ -46,6 +46,7 @@ class Sector_data {
     }
     fun AddSector(Type: Data_types.Companion.Sector)
     {
+        State = true
         val connection = database.establishPostgreSQLConnection(login, pass)
         val query = """
         |INSERT INTO "Hall"."Sectors"
@@ -67,7 +68,6 @@ class Sector_data {
                 it.setObject(5, Type.Name)
                 it.executeUpdate()
             }
-            State = true
         }
         catch (ex: Exception)
         {
@@ -81,6 +81,7 @@ class Sector_data {
         |WHERE "SectorId" = ? AND "SeatsTotal" = ? AND "Seats_start" = ? AND "Seats_end" = ? AND "Name" = ?
         |""".trimMargin()
         try {
+            State = true
             return connection.prepareStatement(query).use {
                 it.setObject(1, Type.id)
                 it.setObject(2, Type.SeatsTotal)
@@ -89,8 +90,6 @@ class Sector_data {
                 it.setObject(5, Type.Name)
                 it.executeUpdate()
             }
-            State = true
-            this.getSectors()
         }
         catch (ex: Exception)
         {

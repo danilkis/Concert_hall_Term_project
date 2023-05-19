@@ -2,7 +2,6 @@ package Manager.Elements
 
 import Crew.Workers.Stage_data
 import Manager.Workers.Artist_data
-import Manager.Workers.Crew_data
 import Manager.Workers.Event_data
 import Workers.Data_types
 import androidx.compose.material3.Text
@@ -26,15 +25,14 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
-import java.util.*
 
 @Composable
 fun EventList() { //Лист с типами
-    var Data = Event_data()
+    val Data = Event_data()
     LaunchedEffect(null) {
         Data.getEvents()
     }
-    var Event = Event_data.Event
+    val Event = Event_data.Event
     LazyColumn(modifier = Modifier
         .fillMaxWidth()) {
         items(Event) { Event ->
@@ -111,7 +109,7 @@ fun stringToTimestamp(dateString: String): Timestamp {
 }
 @Composable
 fun AddEvent() {
-    var Data = Stage_data()
+    val Data = Stage_data()
     LaunchedEffect(null) {
         Data.getStages()
     }
@@ -217,8 +215,8 @@ fun AddEvent() {
                     selectedText1,
                     selectedText2
                 )
-            );Event_data().getEvents();
-                if (!Ev.State) {
+            );Event_data().getEvents()
+                if (Ev.State) {
                     scope.launch {
                         snackbarHostState.value.showSnackbar("Добавленно")
                     }
@@ -243,8 +241,8 @@ fun AddEvent() {
                     selectedText1,
                     selectedText2
                 )
-            );Event_data().getEvents();
-                if (!Ev.State) {
+            );Event_data().getEvents()
+                if (Ev.State) {
                     scope.launch {
                         snackbarHostState.value.showSnackbar("Удаленно")
                     }

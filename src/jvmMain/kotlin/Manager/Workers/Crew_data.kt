@@ -8,7 +8,7 @@ class Crew_data {
     var database = DB()
     var pass = DB.password_glob
     var login = DB.user_glob
-    var State = false
+    var State = true
     companion object{
         var Crew = mutableStateListOf<Data_types.Companion.Crew>()
     }
@@ -55,6 +55,7 @@ class Crew_data {
     }
     fun AddCrew(Type: Data_types.Companion.CrewAdd)
     {
+        State = true
         try {
             val connection = database.establishPostgreSQLConnection(login, pass)
             val query = """
@@ -72,39 +73,37 @@ class Crew_data {
                 it.setString(6, Type.CrewType)
                 it.executeUpdate()
             }
-            State = true
-        }
-            catch (ex: Exception)
-            {
-                State = false
-            }
-    }
-    fun RemoveCrew(Type: Data_types.Companion.CrewAdd)
-    {
-        try
-        {
-        val connection = database.establishPostgreSQLConnection(login, pass)
-        val query = """
-        |DELETE FROM "Hall"."Crew"
-        |WHERE "Name" = ? AND "Surname" = ? AND "ThirdName" = ? AND "Phone" = ? AND "Email" = ?
-        |AND "CrewMemberType" = (SELECT "CrewTypeId" FROM "Hall"."Crew_types" WHERE "Name" = ?);
-        |""".trimMargin()
-
-            return connection.prepareStatement(query).use {
-                it.setString(1, Type.Name)
-                it.setString(2, Type.Surname)
-                it.setString(3, Type.ThirdName)
-                it.setString(4, Type.Phone)
-                it.setString(5, Type.Email)
-                it.setString(6, Type.CrewType)
-                it.executeUpdate()
-            }
-            this.getCrew()
-            State = false
         }
         catch (ex: Exception)
         {
-            State = true
+            State = false
+        }
+    }
+    fun RemoveCrew(Type: Data_types.Companion.CrewAdd)
+    {
+        State = true
+        try
+        {
+            val connection = database.establishPostgreSQLConnection(login, pass)
+            val query = """
+            |DELETE FROM "Hall"."Crew"
+            |WHERE "Name" = ? AND "Surname" = ? AND "ThirdName" = ? AND "Phone" = ? AND "Email" = ?
+            |AND "CrewMemberType" = (SELECT "CrewTypeId" FROM "Hall"."Crew_types" WHERE "Name" = ?);
+            |""".trimMargin()
+
+                return connection.prepareStatement(query).use {
+                    it.setString(1, Type.Name)
+                    it.setString(2, Type.Surname)
+                    it.setString(3, Type.ThirdName)
+                    it.setString(4, Type.Phone)
+                    it.setString(5, Type.Email)
+                    it.setString(6, Type.CrewType)
+                    it.executeUpdate()
+                }
+        }
+        catch (ex: Exception)
+        {
+            State = false
         }
     }
 }

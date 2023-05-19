@@ -24,11 +24,11 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun TypesList() { //Лист с типами
-    var Data = Equipment_data()
+    val Data = Equipment_data()
     LaunchedEffect(null) {
         Data.getEquipmentTypes()
     }
-    var equipmentTypes = Equipment_data.Eq_types
+    val equipmentTypes = Equipment_data.Eq_types
     LazyColumn {
         items(equipmentTypes) { equipmentType ->
             TypeCard(equipmentType)
@@ -88,8 +88,8 @@ fun AddType() {
                     text1.value,
                     text2.value
                 )
-            );Equipment_data().getEquipmentTypes();
-                if(!Equipment.State)
+            );Equipment_data().getEquipmentTypes()
+                if(Equipment.State)
                 {
                     scope.launch {
                         snackbarHostState.value.showSnackbar("Добавленно")
@@ -115,8 +115,8 @@ fun AddType() {
                     text1.value,
                     text2.value
                 )
-            );Equipment_data().getEquipmentTypes();
-                if(!Equipment.State)
+            );Equipment_data().getEquipmentTypes()
+                if(Equipment.State)
                 {
                     scope.launch {
                         snackbarHostState.value.showSnackbar("Удаленно")
@@ -138,11 +138,11 @@ fun AddType() {
 
 @Composable
 fun EquipmentList() { //Лист с типами
-    var Data = Equipment_data()
+    val Data = Equipment_data()
     LaunchedEffect(null) {
         Data.getEquipmentPlain()
     }
-    var equipmentList = Equipment_data.equipment
+    val equipmentList = Equipment_data.equipment
     LazyColumn {
         items(equipmentList) { equipment ->
             EqupmentCard(equipment)
@@ -184,9 +184,7 @@ fun EqupmentCard(equipment: Data_types.Companion.Equipment) {
 @Composable
 fun AddEquipment() {
     val Id = remember { mutableStateOf("") }
-    val Manufacturer = remember { mutableStateOf("") }
     val Stock = remember { mutableStateOf("") }
-    val EqTypeId = remember { mutableStateOf("") }
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { mutableStateOf(SnackbarHostState()) }
     SnackbarHost(snackbarHostState.value)
@@ -272,15 +270,15 @@ fun AddEquipment() {
         Spacer(modifier = Modifier.padding(8.dp))
         Button(
             onClick = {
-                var Equipment = Equipment_data(); Equipment.AddEquipment(
+                val Equipment = Equipment_data(); Equipment.AddEquipment(
                     Data_types.Companion.Equipment(
                         Id.value.toInt(),
                         selectedText1,
                         Stock.value.toInt(),
                         selectedText.toInt()
                     )
-                ); Equipment_data().getEquipmentPlain();
-                if(!Equipment.State)
+                ); Equipment_data().getEquipmentPlain()
+                if(Equipment.State)
                 {
                     scope.launch {
                         snackbarHostState.value.showSnackbar("Добавленно")
@@ -307,8 +305,8 @@ fun AddEquipment() {
                     Stock.value.toInt(),
                     selectedText.toInt()
                 )
-            );Equipment.getEquipmentPlain();
-                if(!Equipment.State)
+            );Equipment.getEquipmentPlain()
+                if(Equipment.State)
                 {
                     scope.launch {
                         snackbarHostState.value.showSnackbar("Удаленно")

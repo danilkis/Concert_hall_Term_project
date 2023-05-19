@@ -1,7 +1,6 @@
 package Manager.Elements
 
 import Workers.Data_types
-import Crew.Workers.Equipment_data
 import Manager.Workers.Artist_data
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -17,11 +16,11 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun ArtistList() { //Лист с типами
-    var Data = Artist_data()
+    val Data = Artist_data()
     LaunchedEffect(null) {
         Data.getArtists()
     }
-    var artists = Artist_data.Artists
+    val artists = Artist_data.Artists
     LazyColumn {
         items(artists) { artists ->
             ArtistCard(artists)
@@ -117,8 +116,8 @@ fun AddArtist() {
                     Phone.value,
                     Email.value
                 )
-            );Artist_data().getArtists();
-                if(!Artists.State)
+            );Artist_data().getArtists()
+                if(Artists.State)
                 {
                     scope.launch {
                         snackbarHostState.value.showSnackbar("Добавленно")
@@ -146,8 +145,8 @@ fun AddArtist() {
                     Phone.value,
                     Email.value
                 )
-            );Artist_data().getArtists();
-                if(!Artists.State)
+            );Artist_data().getArtists()
+                if(Artists.State)
                 {
                     scope.launch {
                         snackbarHostState.value.showSnackbar("Удаленно")

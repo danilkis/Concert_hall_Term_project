@@ -23,11 +23,11 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun SectorStagesList() { //Лист с типами
-    var Data = SectorStages_data()
+    val Data = SectorStages_data()
     LaunchedEffect(null) {
         Data.getStagesSectors()
     }
-    var equipmentTypes = SectorStages_data.StagesSectors
+    val equipmentTypes = SectorStages_data.StagesSectors
     LazyColumn {
         items(equipmentTypes) { equipmentType ->
             SectorStageCard(equipmentType)
@@ -130,22 +130,22 @@ fun AddSectorStages() {
                 DropdownMenuItem(onClick = {
                     selectedText = label.id.toString()
                 }) {
-                    Text(text = label.Name.toString())
+                    Text(text = label.Name)
                 }
             }
         }
         Spacer(modifier = Modifier.padding(8.dp))
         Button(
             onClick = {
-                var srcstg = SectorStages_data(); srcstg.AddStageSector(
+                val srcstg = SectorStages_data(); srcstg.AddStageSector(
                     Data_types.Companion.SectorStages(
                         selectedText1.toInt(),
                         " ",
                         selectedText.toInt(),
                         " "
                     )
-                ); SectorStages_data().getStagesSectors();
-                if(!srcstg.State)
+                ); SectorStages_data().getStagesSectors()
+                if(srcstg.State)
                 {
                     scope.launch {
                         snackbarHostState.value.showSnackbar("Добавленно")
@@ -165,15 +165,15 @@ fun AddSectorStages() {
         Spacer(modifier = Modifier.padding(8.dp))
         Button(
             onClick = {
-                var stgsec = SectorStages_data(); stgsec.RemoveSectorStage(
+                val stgsec = SectorStages_data(); stgsec.RemoveSectorStage(
                     Data_types.Companion.SectorStages(
                         selectedText1.toInt(),
                         " ",
                         selectedText.toInt(),
                         " "
                     )
-                ); SectorStages_data().getStagesSectors();
-                if(!stgsec.State)
+                ); SectorStages_data().getStagesSectors()
+                if(stgsec.State)
                 {
                     scope.launch {
                         snackbarHostState.value.showSnackbar("Удаленно")

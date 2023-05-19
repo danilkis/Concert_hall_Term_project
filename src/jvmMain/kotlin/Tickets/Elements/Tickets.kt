@@ -1,8 +1,6 @@
 package Tickets.Elements
 
-import Crew.Workers.Equipment_data
 import Crew.Workers.Sector_data
-import Crew.Workers.Stage_data
 import Manager.Workers.Event_data
 import Tickets.Workers.TicketTypes_worker
 import Tickets.Workers.Ticket_worker
@@ -10,7 +8,6 @@ import Workers.Data_types
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
@@ -30,11 +27,11 @@ import java.text.SimpleDateFormat
 
 @Composable
 fun TicketList() { //Лист с типами
-    var Data = Ticket_worker()
+    val Data = Ticket_worker()
     LaunchedEffect(null) {
         Data.getTickets()
     }
-    var Tickets = Ticket_worker.Tickets
+    val Tickets = Ticket_worker.Tickets
     LazyColumn {
         items(Tickets) { Tickets ->
             TicketCard(Tickets)
@@ -125,8 +122,8 @@ fun stringToTimestamp(dateString: String): Timestamp { //TODO: Unparcable date f
 }
 @Composable
 fun AddTicket() { //TODO: Сделать панель с типами
-    var Data = Event_data()
-    var Data1 = TicketTypes_worker()
+    val Data = Event_data()
+    val Data1 = TicketTypes_worker()
     LaunchedEffect(null) {
         Data.getEvents()
         Data1.getTT()
@@ -134,7 +131,6 @@ fun AddTicket() { //TODO: Сделать панель с типами
     val ID = remember { mutableStateOf("") }
     val Price = remember { mutableStateOf("") }
     val Date = remember { mutableStateOf("") }
-    val Used = remember { mutableStateOf("") }
     var checked by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { mutableStateOf(SnackbarHostState()) }
@@ -251,8 +247,8 @@ fun AddTicket() { //TODO: Сделать панель с типами
                     selectedText1,
                     ""
                 )
-            ); Ticket_worker().getTickets();
-                if(!Tickets.State)
+            ); Ticket_worker().getTickets()
+                if(Tickets.State)
                 {
                     scope.launch {
                         snackbarHostState.value.showSnackbar("Добавленно")
@@ -281,11 +277,11 @@ fun AddTicket() { //TODO: Сделать панель с типами
                     selectedText1,
                     ""
                 )
-            ); Sector_data().getSectors();
-                if(!Tickets.State)
+            ); Sector_data().getSectors()
+                if(Tickets.State)
                 {
                     scope.launch {
-                        snackbarHostState.value.showSnackbar("Удаллено")
+                        snackbarHostState.value.showSnackbar("Удалено")
                     }
                 }
                 else

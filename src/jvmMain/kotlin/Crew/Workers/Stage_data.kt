@@ -8,7 +8,7 @@ class Stage_data {
     var database = DB()
     var pass = DB.password_glob
     var login = DB.user_glob
-    var State = false
+    var State = true
     companion object
     {
         var Stages = mutableStateListOf<Data_types.Companion.Stage>()
@@ -44,6 +44,7 @@ class Stage_data {
     }
     fun AddStage(Type: Data_types.Companion.Stage)
     {
+        State = true
         val connection = database.establishPostgreSQLConnection(login, pass)
         val query = """
         |INSERT INTO "Hall"."Stages"
@@ -61,7 +62,6 @@ class Stage_data {
                 it.setObject(3, Type.StageCapacity)
                 it.executeUpdate()
             }
-            State = true
         }
         catch (ex: Exception)
         {
@@ -69,6 +69,7 @@ class Stage_data {
         }
     }
     fun RemoveStage(Type: Data_types.Companion.Stage) {
+        State = true
         val connection = database.establishPostgreSQLConnection(login, pass)
         val query = """
         |DELETE FROM "Hall"."Stages"
@@ -81,7 +82,6 @@ class Stage_data {
                 it.setObject(3, Type.StageCapacity)
                 it.executeUpdate()
             }
-            State = true
         }
         catch (ex: Exception)
         {

@@ -15,11 +15,11 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun SectorList() { //Лист с типами
-    var Data = Sector_data()
+    val Data = Sector_data()
     LaunchedEffect(null) {
         Data.getSectors()
     }
-    var sectors = Sector_data.Sector
+    val sectors = Sector_data.Sector
     LazyColumn {
         items(sectors) { Sector ->
             SectorCard(Sector)
@@ -112,8 +112,8 @@ fun AddSector() {
                     SeatsEnd.value.toInt(),
                     Name.value
                 )
-            ); Sector_data().getSectors();
-                if(!Sector.State)
+            ); Sector_data().getSectors()
+                if(Sector.State)
                 {
                     scope.launch {
                         snackbarHostState.value.showSnackbar("Добавленно")
@@ -140,11 +140,11 @@ fun AddSector() {
                     SeatsEnd.value.toInt(),
                     Name.value
                 )
-            ); Sector_data().getSectors();
-                if(!Sector.State)
+            ); Sector_data().getSectors()
+                if(Sector.State)
                 {
                     scope.launch {
-                        snackbarHostState.value.showSnackbar("Удаллено")
+                        snackbarHostState.value.showSnackbar("Удалено")
                     }
                 }
                 else
