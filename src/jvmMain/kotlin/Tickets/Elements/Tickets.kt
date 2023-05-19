@@ -101,11 +101,41 @@ fun TicketCard(Ticket: Data_types.Companion.Ticket) {
                         )
                     }
                 )
+                if (Ticket.Used)
+                {
+                    AssistChip(
+                        modifier = Modifier.padding(4.dp),
+                        onClick = { /* Do something! */ },
+                        label = { Text("Использован") },
+                        leadingIcon = {
+                            Icon(
+                                Icons.Filled.CheckCircle,
+                                contentDescription = "Localized description",
+                                Modifier.size(AssistChipDefaults.IconSize)
+                            )
+                        }
+                    )
+                }
+                else
+                {
+                    AssistChip(
+                        modifier = Modifier.padding(4.dp),
+                        onClick = { /* Do something! */ },
+                        label = { Text("Действителен") },
+                        leadingIcon = {
+                            Icon(
+                                Icons.Filled.Circle,
+                                contentDescription = "Localized description",
+                                Modifier.size(AssistChipDefaults.IconSize)
+                            )
+                        }
+                    )
+                }
             }
         }
     }
 }
-fun stringToTimestamp(dateString: String): Timestamp { //TODO: Unparcable date fix
+fun stringToTimestamp(dateString: String): Timestamp {
     try {
         val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
         val parsedDate = dateFormat.parse(dateString)
@@ -121,7 +151,7 @@ fun stringToTimestamp(dateString: String): Timestamp { //TODO: Unparcable date f
     }
 }
 @Composable
-fun AddTicket() { //TODO: Сделать панель с типами
+fun AddTicket() {
     val Data = Event_data()
     val Data1 = TicketTypes_worker()
     LaunchedEffect(null) {

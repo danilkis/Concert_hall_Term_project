@@ -35,7 +35,7 @@ fun ManagerScreen(navController: NavController) //
             ) {
                 CustomNavigationHostManager(navController = navController)
             }
-            NavigationBar(){
+            NavigationBar {
                 screens.forEach {
                     NavigationBarItem(
                         selected = currentScreen == it.name,

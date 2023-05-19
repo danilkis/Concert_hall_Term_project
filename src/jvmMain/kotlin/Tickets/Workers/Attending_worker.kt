@@ -49,6 +49,10 @@ class Attending_worker {
         val query = """
         |INSERT INTO "Hall"."Attending" ("Name", "Surname", "TicketId", "AttendeeId")
         |values (?, ?, ?, ?)
+        |ON CONFLICT ("TicketTypeId") DO UPDATE
+        |SET "Name" = EXCLUDED."Name",
+        |"Surname" = EXCLUDED."Surname",
+        |"TicketId" = EXCLUDED."TicketId";
         
         |""".trimMargin()
         try

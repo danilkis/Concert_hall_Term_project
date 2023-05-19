@@ -71,7 +71,13 @@ class Ticket_worker {
         |FROM "Hall"."Ticket_types"
         |WHERE "Name" = ?
         |) AS tt, "Hall"."Events" e
-        |WHERE e."EventName" = ?;
+        |WHERE e."EventName" = ?
+        |ON CONFLICT ("TicketId") DO UPDATE
+        |SET "Price" = EXCLUDED."Price",
+        |"DateOfPurchanse" = EXCLUDED."DateOfPurchanse",
+        |"Used" = EXCLUDED."Used",
+        |"TicketType" = EXCLUDED."TicketType",
+        |"Event" = EXCLUDED."Event";
         |""".trimMargin()
         try
         {

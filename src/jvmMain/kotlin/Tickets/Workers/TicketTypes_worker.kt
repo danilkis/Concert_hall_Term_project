@@ -47,7 +47,9 @@ class TicketTypes_worker {
         val query = """
         |INSERT INTO "Hall"."Ticket_types" ("Name", "Sector", "TicketTypeId")
         |values (?, ?, ?)
-        
+        |ON CONFLICT ("TicketTypeId") DO UPDATE
+        |SET "Name" = EXCLUDED."Name",
+        |"Sector" = EXCLUDED."Sector";
         |""".trimMargin()
         try
         {
